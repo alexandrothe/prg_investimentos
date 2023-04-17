@@ -1,2 +1,2 @@
-# prg_investimentos
+# Programa para investimentos
 Sistema Controle de Investimento
