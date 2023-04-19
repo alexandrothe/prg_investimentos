@@ -1,2 +1,2 @@
-# Programa para investimentos
+# Programa para Investimentos
 Sistema Controle de Investimento
