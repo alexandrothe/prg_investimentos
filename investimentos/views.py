@@ -4,3 +4,9 @@ from django.http import HttpResponse
 
 def index(request):
     return HttpResponse("<h1>Hello world this is test file changed push git hub</h1>")
+
+def home(request):
+    content = { 
+        'name':'rafael'
+    }
+    return render(request, 'index.html', content)
