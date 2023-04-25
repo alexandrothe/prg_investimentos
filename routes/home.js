@@ -17,13 +17,24 @@ router.use(bodyParser.urlencoded({extended:true}))
 
 router.get('', (req, res) => {
     
-    let codigoList = []
-    myMondelController.findAllAtivos({attributes:['codigo']}).then((list) => {
-        list.forEach( codigo => {
-            codigoList.push(codigo.codigo);
-        });
-        res.render('index.ejs',{codigoList})
-    })
+
+    ( async () => {
+        let allAtivos = (await myMondelController.findAllAtivos()).map( item => item);
+        let allInvestimentos = await myMondelController.findAllInvestimentos();
+
+        let codigoList = allAtivos.map( item => item.codigo);
+
+        res.render('index.ejs',{codigoList, allInvestimentos})
+        
+    })();
+
+
+    // myMondelController.findAllAtivos({attributes:['codigo']}).then((list) => {
+    //     list.forEach( codigo => {
+    //         codigoList.push(codigo.codigo);
+    //     });
+    //     res.render('index.ejs',{codigoList})
+    // })
     
 
 })

@@ -44,4 +44,16 @@ class ModelController{
 }
 
 
+// let model = new ModelController();
+
+// (async () =>{
+//     let allAtivos = await model.findAllAtivos();
+
+//     allAtivos.forEach( item => {
+//         console.log(item.codigo)
+//     })
+// })(); 
+
+
+
 module.exports = ModelController

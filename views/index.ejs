@@ -106,12 +106,12 @@
 
             <div>
                 <label for="codigo">Código:</label>
-                <!-- <input type="text" id="codigo" name="codigo"> -->
-                <select>
+                <input type="text" id="codigo" name="codigo">
+                <!-- <select>
                     <% codigoList.forEach( codigo => { %>
                         <option  value="<%= codigo %>"> <%= codigo %> </option>
                     <% }); %>
-                </select>
+                </select> -->
             </div>
 
             <div>
@@ -160,10 +160,25 @@
                 </tr>
             </thead>
             <tbody id="tabela_operacoes">
+                <% allInvestimentos.forEach( item => { %>
+                    <% let valorOperacao = Number(item.quantidate * item.valor_unidade) %>
+                    <% let taxaImposto = valorOperacao * 0.03 %>
+                    <% let valorFinal = Number(valorOperacao + taxaImposto + item.taxa_corretagem) %>
+
+                   <tr>
+                       <td><%= item.data %></td>
+                       <td><%= item.codigo_ativo %></td>
+                       <td><%= item.quantidade %></td>
+                       <td><%= item.valor_unidade %></td>
+                       <td><%= item.venda_ou_compra %></td>
+                       <td><%= item.quantidade * item.valor_unidade %></td>
+                       <td><%= item.taxa_corretagem %></td>
+                       <td><%= valorFinal %></td>
+                   </tr>
+                <% }) %>
             </tbody>
         </table>
     </div>
-
     <script>
         function adicionarOperacao() {
             var data = document.getElementById("data").value;
