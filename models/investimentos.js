@@ -1,8 +1,9 @@
 const {Sequelize, DataTypes} = require('sequelize')
+const path = require('path')
 
 const sequelize = new Sequelize({
     dialect:'sqlite',
-    storage:'./database.db'
+    storage: path.join(__dirname, 'database.db')
 });
 
 sequelize.authenticate()
@@ -21,15 +22,16 @@ const Ativos = sequelize.define("Ativo",{
         primaryKey:true
     },
     codigo:{
-        type: DataTypes.STRING,
-        allowNull:false
+        type: DataTypes.STRING(6),
+        allowNull:false,
+        unique:true
     },
     nome:{
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(150),
         allowNull:false
     },
     cnpj:{
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(35),
         allowNull:false
     }
 },{ freezeTableName:true});
@@ -45,12 +47,12 @@ const Investimentos = sequelize.define('Investimentos', {
         allowNull:false
     },
     codigo_ativo:{
-        type: DataTypes.STRING,
-        allowNull:false,
-        references:{
-            model:'Ativo',
-            key:'codigo'
-        }
+        type: DataTypes.STRING(6),
+        allowNull:false
+        // references:{
+        //     model:'Ativo',
+        //     key:'codigo'
+        // }
     },
     quantidade:{
         type: DataTypes.INTEGER,
@@ -61,7 +63,7 @@ const Investimentos = sequelize.define('Investimentos', {
         allowNull:false
     },
     compra_ou_venda:{
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(1),
         allowNull:false
     },
     // valor_operacao:{
@@ -103,8 +105,8 @@ const InvestAtivos = sequelize.define('IvestAtivos', {
 })
 
 
-Ativos.belongsToMany(Investimentos, { through:InvestAtivos });
-Investimentos.belongsToMany(Ativos, { through:InvestAtivos });
+Ativos.belongsToMany(Investimentos, { through: InvestAtivos });
+Investimentos.belongsToMany(Ativos, { through: InvestAtivos });
 
 
 

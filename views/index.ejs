@@ -106,7 +106,12 @@
 
             <div>
                 <label for="codigo">Código:</label>
-                <input type="text" id="codigo" name="codigo">
+                <!-- <input type="text" id="codigo" name="codigo"> -->
+                <select>
+                    <% codigoList.forEach( codigo => { %>
+                        <option  value="<%= codigo %>"> <%= codigo %> </option>
+                    <% }); %>
+                </select>
             </div>
 
             <div>
@@ -206,7 +211,7 @@
             document.getElementById("taxa_imposto").value = "";
             document.getElementById("valor_unitario").value = "";
             document.getElementById("valor-final-compra").innerHTML = Number(valor_final); 
-        }   
+        }
     </script>
 </body>
 </html>
