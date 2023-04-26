@@ -197,7 +197,7 @@
                        <% if(item.compra_ou_venda === 'c' ) { %>
                         <td><%= ( ( item.quantidade * item.valor_unidade) + (item.quantidade * item.valor_unidade * 0.0003) + item.taxa_corretagem ).toFixed(2) %></td>
                        <% } else { %>
-                        <td><%= ( ( item.quantidade * item.valor_unidade) - ((item.quantidade * item.valor_unidade * 0.0003) + item.taxa_corretagem)).toFixed(3)  %></td>
+                        <td><%= ( ( item.quantidade * item.valor_unidade) - ((item.quantidade * item.valor_unidade * 0.0003) + item.taxa_corretagem)).toFixed(2)  %></td>
                        <% } %>
                    </tr>
                 <% }) %>
