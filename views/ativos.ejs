@@ -8,6 +8,53 @@
     <title>Document</title>
 </head>
 <body>
-    <h4>this is the ativos ejs</h4>
+    <header>
+        <div class="navbar">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="http://localhost:4613/app/investimentos">Cadastrar Investimentos</a>
+                    </li>
+                    <li>
+                        <a href="http://localhost:4613/app/ativos">Cadrastrar Ativos</a>
+                    </li>
+                    <li>
+                        <a href="https://www.google.com">Ver Investimentos</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="main-content">
+            <% if(noAtivos) { %>
+                <div class="head-main">
+                    <div class="error-field">
+                        <p>você não tem nenhum ativos cadrastdos</p>
+                        <p>cadastre pelo menos 1 ativo</p>
+                    </div>
+                </div>
+            <% } %>
+            <div class="body-main">
+                <form method="post" action="ativos/post">
+                    <div class="input-field">
+                        <label for="nome-empresa">Nome da Empresa:</label>
+                        <input type="text" placeholder="digite o nome da empresa" name="nome_empresa" id="nome-empresa" />
+                    </div>
+                    <div class="input-field">
+                        <label for="cnpj-empresa">CNPJ da Empresa:</label>
+                        <input type="text" placeholder="digite o CNPJ da empresa" name="cnpj_empresa" id="cnpj-empresa" />
+                    </div>
+                    <div class="input-field">
+                        <label for="codigo-ativo">Codigo do Ativo:</label>
+                        <input type="text" placeholder="digite o codigo do ativo" name="codigo_ativo" id="codigo-ativo" />
+                    </div>
+                    <div class="button-field">
+                        <button>Adicionar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

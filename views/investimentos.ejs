@@ -4,14 +4,27 @@
     <meta charset="utf-8">
     <title>Tabela de Operações</title>
     <style>
-        
+
+        nav {
+            text-align: center;
+        }
+        ul li{
+            display: inline;
+            margin-right: 20px;
+        }
+        ul li a{
+            text-decoration: none;
+            font-family: sans-serif;
+            color: black;
+            font-size: 1.1rem;
+        }
         body {
             font-family: Arial, Helvetica, sans-serif;
             background-color: #f2f2f2;
         }
         
         .container {
-            max-width: 800px;
+            max-width: min-content;
             margin: 0 auto;
             padding: 50px 20px;
             border: 1px solid #ccc;
@@ -97,6 +110,23 @@
     </style>
 </head>
 <body>
+    <header>
+        <div class="navbar">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="http://localhost:4613/app/investimentos">Cadastrar Investimentos</a>
+                    </li>
+                    <li>
+                        <a href="http://localhost:4613/app/ativos">Cadrastrar Ativos</a>
+                    </li>
+                    <li>
+                        <a href="https://www.google.com">Ver Investimentos</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
     <div class="container" >
         <form method="post" id="myForm" action="/app/investimentos/post">
             <div>
@@ -106,7 +136,11 @@
 
             <div>
                 <label for="codigo">Código:</label>
-                <input type="text" id="codigo" name="codigo">
+                <select id="codigo" name="codigo">
+                    <% codigoList.forEach( codigo => { %>
+                        <option value="<%= codigo %>"><%= codigo %></option>
+                    <% }) %>
+                </select>
             </div>
 
             <div>
@@ -130,11 +164,6 @@
             <div>
                 <label for="taxa_corretagem">Taxa Corretagem:</label>
                 <input type="text" id="taxa_corretagem" name="taxa_corretagem">
-            </div>
-
-            <div>
-                <label for="taxa_imposto">Taxa de Imposto:</label>
-                <input type="text" id="taxa_imposto" name="taxa_imposto">
             </div>
 
             <button type="submit">Adicionar</button>

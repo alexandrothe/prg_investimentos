@@ -8,9 +8,21 @@ const myMondelController = new ModelController;
 const router = express.Router();
 
 router.get('/ativos', (req, res) => {
-    res.render('ativos.ejs');
+    const noAtivos = req.query.noativos;
+
+    res.render('ativos.ejs', { noAtivos });
 });
-router.get('/ativos/post', (req, res) => {
+router.post('/ativos/post', (req, res) => {
+
+    const {nome_empresa, cnpj_empresa, codigo_ativo} = req.body
+    
+    myMondelController.insertAtivos({
+        nome: nome_empresa,
+        cnpj: cnpj_empresa,
+        codigo: codigo_ativo
+    });
+
+
     res.redirect('/app/ativos')
 });
 
@@ -21,16 +33,21 @@ router.get('/investimentos', (req, res) => {
         let allAtivos = (await myMondelController.findAllAtivos()).map( item => item);
         let allInvestimentos = await myMondelController.findAllInvestimentos();
 
-        console.log(allInvestimentos)
-        let codigoList = allAtivos.map( item => item.codigo);
+        if(allAtivos.length === 0) {
+            res.redirect('/app/ativos?noativos=true')
+        }
+        else{
 
-        res.render('invest.ejs',{codigoList, allInvestimentos})
+            let codigoList = allAtivos.map( item => item.codigo);
+            res.render('investimentos.ejs',{codigoList, allInvestimentos})
+        }
         
     })();
 
 });
 
 router.post('/investimentos/post', (req, res) => {
+
     const { data, codigo, quantidade, valor_unitario, compra_venda,
     taxa_corretagem} = req.body;
 
@@ -42,7 +59,6 @@ router.post('/investimentos/post', (req, res) => {
         valor_unidade:valor_unitario,
         compra_ou_venda:compra_venda,
         taxa_corretagem:taxa_corretagem,
-        // taxa_imposto: taxa_imposto
     });
 
     res.redirect('/app/investimentos')

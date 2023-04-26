@@ -23,8 +23,7 @@ const Ativos = sequelize.define("Ativo",{
     },
     codigo:{
         type: DataTypes.STRING(6),
-        allowNull:false,
-        unique:true
+        allowNull:false
     },
     nome:{
         type: DataTypes.STRING(150),

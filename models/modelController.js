@@ -33,6 +33,11 @@ class ModelController{
             codigo:codigo,
             nome:nome,
             cnpj:cnpj
+        })
+        .then( (sucs) =>{
+            console.log('Ativo Adicionado com sucesso!!');
+        } ).catch( (erro) => {
+            console.log('Não foi possivel adicionar Ativos. Erro:', erro)
         });
     }
     async findAllAtivos(params){
@@ -45,15 +50,5 @@ class ModelController{
 
 
 // let model = new ModelController();
-
-// (async () =>{
-//     let allAtivos = await model.findAllAtivos();
-
-//     allAtivos.forEach( item => {
-//         console.log(item.codigo)
-//     })
-// })(); 
-
-
 
 module.exports = ModelController
