@@ -43,16 +43,12 @@ const Investimentos = sequelize.define('Investimentos', {
         primaryKey:true
     },
     data:{
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull:false
     },
     codigo_ativo:{
         type: DataTypes.STRING(6),
         allowNull:false
-        // references:{
-        //     model:'Ativo',
-        //     key:'codigo'
-        // }
     },
     quantidade:{
         type: DataTypes.INTEGER,
@@ -66,23 +62,10 @@ const Investimentos = sequelize.define('Investimentos', {
         type: DataTypes.STRING(1),
         allowNull:false
     },
-    // valor_operacao:{
-    //     type: DataTypes.FLOAT,
-    //     allowNull:false
-    // },
     taxa_corretagem:{
         type: DataTypes.FLOAT,
         allowNull:false
     }
-    // taxa_imposto:{
-    //     type: DataTypes.FLOAT,
-    //     allowNull:false
-    // },
-    // valor_operacao_final:{
-    //     type: DataTypes.FLOAT,
-    //     allowNull:false
-    // }
-
 },{freezeTableName:true})
 
 

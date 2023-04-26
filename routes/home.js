@@ -5,45 +5,36 @@ const ModelController = require('../models/modelController');
 
 const myMondelController = new ModelController;
 
-const bodyParser = require('body-parser')
 const router = express.Router();
 
+router.get('/ativos', (req, res) => {
+    res.render('ativos.ejs');
+});
+router.get('/ativos/post', (req, res) => {
+    res.redirect('/app/ativos')
+});
 
-
-router.use(bodyParser.json())
-router.use(bodyParser.urlencoded({extended:true}))
-
-
-
-router.get('', (req, res) => {
+router.get('/investimentos', (req, res) => {
     
 
     ( async () => {
         let allAtivos = (await myMondelController.findAllAtivos()).map( item => item);
         let allInvestimentos = await myMondelController.findAllInvestimentos();
 
+        console.log(allInvestimentos)
         let codigoList = allAtivos.map( item => item.codigo);
 
-        res.render('index.ejs',{codigoList, allInvestimentos})
+        res.render('invest.ejs',{codigoList, allInvestimentos})
         
     })();
 
+});
 
-    // myMondelController.findAllAtivos({attributes:['codigo']}).then((list) => {
-    //     list.forEach( codigo => {
-    //         codigoList.push(codigo.codigo);
-    //     });
-    //     res.render('index.ejs',{codigoList})
-    // })
-    
-
-})
-
-router.post('/post', (req, res) => {
+router.post('/investimentos/post', (req, res) => {
     const { data, codigo, quantidade, valor_unitario, compra_venda,
     taxa_corretagem} = req.body;
 
-    
+
     myMondelController.insertInvestimentos({
         data: data,
         codigo_ativo:codigo,
@@ -54,7 +45,7 @@ router.post('/post', (req, res) => {
         // taxa_imposto: taxa_imposto
     });
 
-    res.redirect('/investimentos')
+    res.redirect('/app/investimentos')
 });
 
 

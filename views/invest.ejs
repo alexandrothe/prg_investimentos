@@ -98,20 +98,15 @@
 </head>
 <body>
     <div class="container" >
-        <form method="post" action="/investimentos/post">
+        <form method="post" id="myForm" action="/app/investimentos/post">
             <div>
                 <label for="data">Data:</label>
-                <input type="date" id="data" name="data">
+                <input type="text" id="data" name="data">
             </div>
 
             <div>
                 <label for="codigo">Código:</label>
                 <input type="text" id="codigo" name="codigo">
-                <!-- <select>
-                    <% codigoList.forEach( codigo => { %>
-                        <option  value="<%= codigo %>"> <%= codigo %> </option>
-                    <% }); %>
-                </select> -->
             </div>
 
             <div>
@@ -127,8 +122,8 @@
             <div>
                 <label for="compra_venda">Compra/Venda:</label>
                 <select id="compra_venda" name="compra_venda">
-                    <option value="compra">Compra</option>
-                    <option value="venda">Venda</option>
+                    <option value="c">Compra</option>
+                    <option value="v">Venda</option>
                 </select>
             </div>
 
@@ -142,7 +137,7 @@
                 <input type="text" id="taxa_imposto" name="taxa_imposto">
             </div>
 
-            <button type="submit" onclick="adicionarOperacao()">Adicionar</button>
+            <button type="submit">Adicionar</button>
         </form>
 
         <table>
@@ -161,72 +156,25 @@
             </thead>
             <tbody id="tabela_operacoes">
                 <% allInvestimentos.forEach( item => { %>
-                    <% let valorOperacao = Number(item.quantidate * item.valor_unidade) %>
-                    <% let taxaImposto = valorOperacao * 0.03 %>
-                    <% let valorFinal = Number(valorOperacao + taxaImposto + item.taxa_corretagem) %>
-
                    <tr>
                        <td><%= item.data %></td>
                        <td><%= item.codigo_ativo %></td>
                        <td><%= item.quantidade %></td>
                        <td><%= item.valor_unidade %></td>
-                       <td><%= item.venda_ou_compra %></td>
+                       <td><%= item.compra_ou_venda %></td>
                        <td><%= item.quantidade * item.valor_unidade %></td>
                        <td><%= item.taxa_corretagem %></td>
-                       <td><%= valorFinal %></td>
+                       <td><%= ( ( item.quantidade * item.valor_unidade ) * 0.0003).toFixed(2) %></td>
+                       <% if(item.compra_ou_venda === 'c' ) { %>
+                        <td><%= ( ( item.quantidade * item.valor_unidade) + (item.quantidade * item.valor_unidade * 0.0003) + item.taxa_corretagem ).toFixed(2) %></td>
+                       <% } else { %>
+                        <td><%= ( ( item.quantidade * item.valor_unidade) - ((item.quantidade * item.valor_unidade * 0.0003) + item.taxa_corretagem)).toFixed(3)  %></td>
+                       <% } %>
                    </tr>
                 <% }) %>
             </tbody>
         </table>
     </div>
-    <script>
-        function adicionarOperacao() {
-            var data = document.getElementById("data").value;
-            var codigo = document.getElementById("codigo").value;
-            var quantidade = document.getElementById("quantidade").value;
-            var valor_unitario = document.getElementById("valor_unitario").value;
-            var compra_venda = document.getElementById("compra_venda").value;
-            var taxa_corretagem = document.getElementById("taxa_corretagem").value;
-            var taxa_imposto = document.getElementById("taxa_imposto").value;
-            
-            var valor_operacao = (quantidade * valor_unitario).toFixed(2);
-            var valor_final = Number((compra_venda == "compra" ? valor_operacao + Number(taxa_corretagem) + Number(taxa_imposto): valor_operacao - Number(taxa_corretagem) - Number(taxa_imposto))).toFixed(2);
-            var tabela_operacoes = document.getElementById("tabela_operacoes");
-            var nova_linha = tabela_operacoes.insertRow();
-            var coluna_data = nova_linha.insertCell();
-            var coluna_codigo = nova_linha.insertCell();
-            var coluna_quantidade = nova_linha.insertCell();
-            var coluna_valor_unitario = nova_linha.insertCell();
-            var coluna_compra_venda = nova_linha.insertCell();
-            var coluna_valor_operacao = nova_linha.insertCell();
-            var coluna_taxa_corretagem = nova_linha.insertCell();
-            var coluna_taxa_imposto = nova_linha.insertCell();
-            var coluna_valor_final = nova_linha.insertCell();
-
-            coluna_data.innerHTML = data;
-            coluna_codigo.innerHTML = codigo;
-            coluna_quantidade.innerHTML = quantidade;
-            coluna_valor_unitario.innerHTML = valor_unitario;
-            coluna_compra_venda.innerHTML = compra_venda;
-            coluna_valor_operacao.innerHTML = valor_operacao;
-            coluna_taxa_corretagem.innerHTML = taxa_corretagem;
-            coluna_taxa_imposto.innerHTML = taxa_imposto;
-            coluna_valor_final.innerHTML = valor_final;
-
-            //limparCampos();
-        }
-
-        function limparCampos() {
-            document.getElementById("data").value = "";
-            document.getElementById("codigo").value = "";
-            document.getElementById("quantidade").value = "";
-            document.getElementById("valor_unitario").value = "";
-            document.getElementById("compra_venda").selectedIndex = 0;
-            document.getElementById("taxa_corretagem").value = "";
-            document.getElementById("taxa_imposto").value = "";
-            document.getElementById("valor_unitario").value = "";
-            document.getElementById("valor-final-compra").innerHTML = Number(valor_final); 
-        }
-    </script>
+    <script src="/scripts/invest.js"></script>
 </body>
 </html>
