@@ -4,51 +4,78 @@ const {Ativos, Investimentos} = require('./investimentos');
 
 
 class ModelController{
-    constructor(){
-        this.investimentos = Investimentos,
-        this.ativos = Ativos;
-    }
+    #investimentos = Investimentos;
+    #ativos = Ativos;
 
-    insertInvestimentos( dict_values ){
+    
+    async insertInvestimentos( dict_values ){
         const {data,
             codigo_ativo,
             quantidade,
             valor_unidade,
             compra_ou_venda,
-            taxa_corretagem} = dict_values;
-    
-        this.investimentos.create({
-            data: data,
-            codigo_ativo: codigo_ativo,
-            quantidade: quantidade,
-            valor_unidade: valor_unidade,
-            compra_ou_venda: compra_ou_venda,
-            taxa_corretagem: taxa_corretagem
-        });   
-    }
-    insertAtivos( dict_values ){
-        const {codigo, nome, cnpj} = dict_values;
+            taxa_corretagem,
+            AtivoId
+        } = dict_values;
+        
+        try{
+            await this.#investimentos.create({
+                data: data,
+                codigo_ativo: codigo_ativo,
+                quantidade: quantidade,
+                valor_unidade: valor_unidade,
+                compra_ou_venda: compra_ou_venda,
+                taxa_corretagem: taxa_corretagem,
+                AtivoId:AtivoId
+            });
 
-        this.ativos.create({
-            codigo:codigo,
-            nome:nome,
-            cnpj:cnpj
-        })
-        .then( (sucs) =>{
-            console.log('Ativo Adicionado com sucesso!!');
-        } ).catch( (erro) => {
-            console.log('Não foi possivel adicionar Ativos. Erro:', erro)
-        });
+            console.log('Investimentos Adicionado com sucesso.!!');
+        }
+        catch(err){
+            console.log("Could not insert the investiment to database");
+            console.log(`Error: ${err}`);
+        }
+    }
+    async insertAtivos( dict_values ){
+        
+        try{
+            const {codigo, nome, cnpj} = dict_values;
+
+            await this.#ativos.create({
+                codigo:codigo,
+                nome:nome,
+                cnpj:cnpj
+            })
+
+            console.log('Ativo adicionado com sucesso!!');
+        }
+        catch(err){
+            console.log("Não foi possivel adicionar Ativos.");
+            console.log(`Erro: ${err}`);
+        }
+       
     }
     async findAllAtivos(params){
-        return await this.ativos.findAll(params);
+        try{
+
+            return await this.#ativos.findAll(params);
+        }
+        catch(err){
+            console.log('Could not find Ativos');
+            console.log('Error:',err);
+        }
     }
     async findAllInvestimentos(params){
-        return await this.investimentos.findAll(params);
+        try{
+            return await this.#investimentos.findAll(params);
+        }
+        catch(err){
+            console.log('Could not find investimentos.');
+            console.log('Erro:',err);
+        }
     }
 }
 
 
-// let model = new ModelController();
 
 module.exports = ModelController
