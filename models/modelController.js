@@ -1,15 +1,15 @@
-const {Ativos, Investimentos} = require('./investimentos');
-
-
+const {Ativos, Investimentos} = require('./schemaModel');
 
 
 class ModelController{
+
     #investimentos = Investimentos;
     #ativos = Ativos;
 
     
     async insertInvestimentos( dict_values ){
-        const {data,
+        const {
+            data,
             codigo_ativo,
             quantidade,
             valor_unidade,
@@ -74,8 +74,72 @@ class ModelController{
             console.log('Erro:',err);
         }
     }
+
+    async deleteAtivos(params){
+        try{
+            const row = await this.#ativos.findOne(params);
+            
+            if(row){
+                row.destroy();
+            }
+            else{
+                throw('Ativo not found')
+            }
+
+            console.log('Ativo deleted successfully')
+        }
+        catch(err){
+            console.log('could not delete the Ativo!!!');
+            console.log(`Erro: ${err}`);
+        }
+    }
+
+    async deleteInvestimentos(params){
+        try{
+            const row = await this.#investimentos.findOne(params);
+
+            if(row){
+
+                row.destroy();
+            }
+            else{
+                throw("Investimento Not Found")
+            }
+
+            console.log('Investimentos deleted successfully')
+        }
+        catch(err){
+            console.log('Could not delete Investimentos!!!');
+            console.log(`Error:${err}`)
+        }
+    }
+
+    async updateAtivos(newValues, whereValues){
+
+        try{
+            await this.#ativos.update(newValues,whereValues);
+
+            console.log("Ativo updated successufully!!")
+        }
+        catch(err){
+            console.log("Ativo could not be updated!!");
+            console.log(`Error:${err}`)
+        }
+    }
+    async updateInvestimentos(newValues, whereValues){
+        try{
+            await this.#investimentos.update(newValues, whereValues);
+            
+            console.log('Investimentos updated successufuly!!!')
+        }
+        catch(err){
+            console.log("Investimentos could not be updated!!");
+            console.log(`Error:${err}`)
+        }
+    }
 }
 
-
+// let model = new ModelController();
+// model.updateInvestimentos({AtivoId:2}, {where:{AtivoId:3}});
 
 module.exports = ModelController

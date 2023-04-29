@@ -58,7 +58,7 @@ const Investimentos = sequelize.define('Investimentos', {
 },{freezeTableName:true, timestamps:false})
 
 
-Ativos.hasMany(Investimentos, {foreignKey:"AtivoId"});
+Ativos.hasMany(Investimentos, {foreignKey:"AtivoId", onDelete:"CASCADE"});
 Investimentos.belongsTo(Ativos);
 
 
