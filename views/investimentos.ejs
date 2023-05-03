@@ -3,111 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>Tabela de Operações</title>
-    <style>
-
-        nav {
-            text-align: center;
-        }
-        ul li{
-            display: inline;
-            margin-right: 20px;
-        }
-        ul li a{
-            text-decoration: none;
-            font-family: sans-serif;
-            color: black;
-            font-size: 1.1rem;
-        }
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #f2f2f2;
-        }
-        
-        .container {
-            max-width: min-content;
-            margin: 0 auto;
-            padding: 50px 20px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-        }
-
-        form {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        form div {
-            display: flex;
-            flex-direction: column;
-            margin-right: 20px;
-            margin-bottom: 10px;
-        }
-
-        form div label {
-            margin-bottom: 5px;
-            color: #666;
-        }
-
-        form input[type="date"],
-        form input[type="text"],
-        form input[type="number"],
-        form select {
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            font-size: 16px;
-            color: #333;
-            background-color: #f7f7f7;
-            transition: all 0.2s ease-in-out;
-        }
-
-        form input[type="date"]:focus,
-        form input[type="text"]:focus,
-        form input[type="number"]:focus,
-        form select:focus {
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            background-color: #fff;
-        }
-
-        form button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #4caf50;
-            color: #fff;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-        }
-
-        form button:hover {
-            background-color: #3e8e41;
-        }
-
-        
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            text-align: center;
-            padding: 10px;
-            border: solid 1px black;
-        }
-
-        thead {
-            background-color: #f7f7f7;
-            font-weight: bold;
-            color: #666;
-        }
-    </style>
+    <link rel="stylesheet" href="/styles/investimento.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css">
 </head>
 <body>
     <header>
@@ -128,82 +25,291 @@
         </div>
     </header>
     <div class="container" >
-        <form method="post" id="myForm" action="/app/investimentos/post">
-            <div>
-                <label for="data">Data:</label>
-                <input type="text" id="data" name="data">
+        <div class="form-container">
+            <form method="post" id="myForm" action="/app/investimentos/post">
+                <div class="form-input-post">
+                    <div>
+                        <label for="post-data">Data:</label>
+                        <input type="text" id="post-data" name="data">
+                    </div>
+        
+                    <div>
+                        <label for="post-codigo">Código:</label>
+                        <select id="post-codigo" name="codigo">
+                            <option value="MGLU4">MGLU3</option>
+                            <option value="MG3">MG3</option>
+                        </select>
+                    </div>
+        
+                    <div>
+                        <label for="post-quantidade">Quantidade:</label>
+                        <input type="number" id="post-quantidade" name="quantidade">
+                    </div>
+        
+                    <div>
+                        <label for="post-valor-unitario">Valor Unitário:</label>
+                        <input type="text" id="post-valor-unitario" name="valor_unitario">
+                    </div>
+        
+                    <div>
+                        <label for="post-compra_venda">Compra/Venda:</label>
+                        <select id="post-compra_venda" name="compra_venda">
+                            <option value="c">Compra</option>
+                            <option value="v">Venda</option>
+                        </select>
+                    </div>
+        
+                    <div>
+                        <label for="post-taxa_corretagem">Taxa Corretagem:</label>
+                        <input type="text" id="post-taxa-corretagem" name="taxa_corretagem">
+                    </div>    
+                </div>
+                <div id="form-post-btn">
+                    <button type="submit">Adicionar</button>
+                </div>
+            </form>
+        </div>
+        <div class="table-container">
+            <div class="table-content">
+                <div class="table-header">
+                    <p>Data</p>
+                    <p>Código</p>
+                    <p>Quantidade</p>
+                    <p>Valor Unitário</p>
+                    <p>Compra ou Venda</p>
+                    <p>Valor da Operação</p>
+                    <p>Taxa Corretagem</p>
+                    <p>Taxa de Imposto</p>
+                    <p>Valor Final</p>
+                    <div class="filter-icon">
+                        <!-- <i class="fa-solid fa-bars-filter"></i> -->
+                        <i class="mdi mdi-filter-variant"></i>
+                    </div>
+                </div>
+                <div class="table-body">
+                    <div class="item-field">
+                        <div class="item">
+                            <p>01-02-2005</p>
+                            <p>MGLU3</p>
+                            <p>100</p>
+                            <p>15.4</p>
+                            <p>C</p>
+                            <p>1540</p>
+                            <p>5</p>
+                            <p>10</p>
+                            <p>12501</p>
+                        </div>
+                        <div class="item">
+                            <p>01-02-2005</p>
+                            <p>MGLU3</p>
+                            <p>100</p>
+                            <p>15.4</p>
+                            <p>C</p>
+                            <p>1540</p>
+                            <p>5</p>
+                            <p>10</p>
+                            <p>12501</p>
+                        </div>
+                        <div class="item">
+                            <p>01-02-2005</p>
+                            <p>MGLU3</p>
+                            <p>1300</p>
+                            <p>153.4</p>
+                            <p>C</p>
+                            <p>1540</p>
+                            <p>53</p>
+                            <p>130</p>
+                            <p>123501</p>
+                        </div>
+                        <div class="item">
+                            <p>01-02-2005</p>
+                            <p>MGLU3</p>
+                            <p>1030</p>
+                            <p>15.34</p>
+                            <p>C</p>
+                            <p>14540</p>
+                            <p>53</p>
+                            <p>1043</p>
+                            <p>1243501</p>
+                        </div>
+                        <div class="item">
+                            <p>01-02-2005</p>
+                            <p>MGLU3</p>
+                            <p>10450</p>
+                            <p>1535.4</p>
+                            <p>C</p>
+                            <p>1540</p>
+                            <p>54</p>
+                            <p>103</p>
+                            <p>1250.23</p>
+                        </div>
+                        <div class="item">
+                            <p>01-02-2005</p>
+                            <p>MGLU3</p>
+                            <p>10450</p>
+                            <p>1535.4</p>
+                            <p>C</p>
+                            <p>1540</p>
+                            <p>54</p>
+                            <p>103</p>
+                            <p>1250.23</p>
+                        </div>
+                        <div class="item">
+                            <p>01-02-2005</p>
+                            <p>MGLU3</p>
+                            <p>10450</p>
+                            <p>1535.4</p>
+                            <p>C</p>
+                            <p>1540</p>
+                            <p>54</p>
+                            <p>103</p>
+                            <p>1250.23</p>
+                        </div>
+                        <div class="item">
+                            <p>01-02-2005</p>
+                            <p>MGLU3</p>
+                            <p>10450</p>
+                            <p>1535.4</p>
+                            <p>C</p>
+                            <p>1540</p>
+                            <p>54</p>
+                            <p>103</p>
+                            <p>1250.23</p>
+                        </div>
+                        <div class="item">
+                            <p>01-02-2005</p>
+                            <p>MGLU3</p>
+                            <p>10450</p>
+                            <p>1535.4</p>
+                            <p>C</p>
+                            <p>1540</p>
+                            <p>54</p>
+                            <p>103</p>
+                            <p>1250.23</p>
+                        </div>
+                    </div>
+                    <div class="button-field">
+                        <div class="button-item">
+                            <a href="./update.html?name=Rafael">
+                                <div class="update-icon">
+                                    <i class="fa-solid fa-pencil"></i>
+                                </div>
+                            </a>
+                            <a href="./delete?id=23">
+                                <div class="delete-icon" >
+                                    <i class="fa-solid fa-x"></i>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="button-item">
+                            <div class="update-icon"> 
+                                <i class="fa-solid fa-pencil"></i>
+                            </div>
+                            <div class="delete-icon">
+                                <i class="fa-solid fa-x"></i>
+                            </div>
+                        </div>
+                        <div class="button-item">
+                            <div class="update-icon"> 
+                                <i class="fa-solid fa-pencil"></i>
+                            </div>
+                            <div class="delete-icon">
+                                <i class="fa-solid fa-x"></i>
+                            </div>
+                        </div>
+                        <div class="button-item">
+                            <div class="update-icon"> 
+                                <i class="fa-solid fa-pencil"></i>
+                            </div>
+                            <div class="delete-icon">
+                                <i class="fa-solid fa-x"></i>
+                            </div>
+                        </div>
+                        <div class="button-item">
+                            <div class="update-icon"> 
+                                <i class="fa-solid fa-pencil"></i>
+                            </div>
+                            <div class="delete-icon">
+                                <i class="fa-solid fa-x"></i>
+                            </div>
+                        </div>
+                        <div class="button-item">
+                            <div class="update-icon"> 
+                                <i class="fa-solid fa-pencil"></i>
+                            </div>
+                            <div class="delete-icon">
+                                <i class="fa-solid fa-x"></i>
+                            </div>
+                        </div>
+                        <div class="button-item">
+                            <div class="update-icon"> 
+                                <i class="fa-solid fa-pencil"></i>
+                            </div>
+                            <div class="delete-icon">
+                                <i class="fa-solid fa-x"></i>
+                            </div>
+                        </div>
+                        <div class="button-item">
+                            <div class="update-icon"> 
+                                <i class="fa-solid fa-pencil"></i>
+                            </div>
+                            <div class="delete-icon">
+                                <i class="fa-solid fa-x"></i>
+                            </div>
+                        </div>
+                        <div class="button-item">
+                            <div class="update-icon"> 
+                                <i class="fa-solid fa-pencil"></i>
+                            </div>
+                            <div class="delete-icon">
+                                <i class="fa-solid fa-x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div>
-                <label for="codigo">Código:</label>
-                <select id="codigo" name="codigo">
-                    <% codigoList.forEach( codigo => { %>
-                        <option value="<%= codigo %>"><%= codigo %></option>
-                    <% }) %>
-                </select>
+            <div class="filter-field">
+                <div class="filter-form">
+                    <div class="filter-form-item">
+                        <label for="filter-data-investimento">Data Investimento</label>
+                        <select id="filter-data-investimento" name="data-investimento">
+                            <option selected value="">selecione</option>
+                            <option>Ordem Crescente</option>
+                            <option>Ordem Decrescente</option>
+                        </select>
+                    </div>
+                    <div class="filter-form-item">
+                        <label for="filter-codigo-ativo">Codigo Ativo</label>
+                        <select name="codigo-ativo" id="filter-codigo-ativo">
+                            <option selected>selecione</option>
+                            <option>MGLU3</option>
+                        </select>
+                    </div>
+                    <div class="filter-form-item">
+                        <label for="filter-compra-venda">Compra ou venda</label>
+                        <select name="compra-venda" id="filter-compra-venda">
+                            <option selected>selecione</option>
+                            <option>Compra</option>
+                            <option>Venda</option>
+                        </select>
+                    </div>
+                    <div class="filter-form-item">
+                        <label for="filter-valor-final">valor final</label>
+                        <select id="filter-valor-final" name="valor-final">
+                            <option selected>selecione</option>
+                            <option>Ordem Crescente</option>
+                            <option>Ordem Decrescente</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-form-button">
+                    <button id="reset-filter-btn">Limpar</button>
+                    <button id="filter-form-btn">Aplicar</button>
+                </div>
             </div>
-
-            <div>
-                <label for="quantidade">Quantidade:</label>
-                <input type="number" id="quantidade" name="quantidade">
-            </div>
-
-            <div>
-                <label for="valor_unitario">Valor Unitário:</label>
-                <input type="text" id="valor_unitario" name="valor_unitario">
-            </div>
-
-            <div>
-                <label for="compra_venda">Compra/Venda:</label>
-                <select id="compra_venda" name="compra_venda">
-                    <option value="c">Compra</option>
-                    <option value="v">Venda</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="taxa_corretagem">Taxa Corretagem:</label>
-                <input type="text" id="taxa_corretagem" name="taxa_corretagem">
-            </div>
-
-            <button type="submit">Adicionar</button>
-        </form>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Código</th>
-                    <th>Quantidade</th>
-                    <th>Valor Unitário</th>
-                    <th>Compra ou Venda</th>
-                    <th>Valor da Operação</th>
-                    <th>Taxa Corretagem</th>
-                    <th>Taxa de Imposto</th>
-                    <th>Valor Final</th>
-                </tr>
-            </thead>
-            <tbody id="tabela_operacoes">
-                <% allInvestimentos.forEach( item => { %>
-                   <tr>
-                       <td><%= item.data %></td>
-                       <td><%= item.codigo_ativo %></td>
-                       <td><%= item.quantidade %></td>
-                       <td><%= item.valor_unidade %></td>
-                       <td><%= item.compra_ou_venda %></td>
-                       <td><%= item.quantidade * item.valor_unidade %></td>
-                       <td><%= item.taxa_corretagem %></td>
-                       <td><%= ( ( item.quantidade * item.valor_unidade ) * 0.0003).toFixed(2) %></td>
-                       <% if(item.compra_ou_venda === 'c' ) { %>
-                        <td><%= ( ( item.quantidade * item.valor_unidade) + (item.quantidade * item.valor_unidade * 0.0003) + item.taxa_corretagem ).toFixed(2) %></td>
-                       <% } else { %>
-                        <td><%= ( ( item.quantidade * item.valor_unidade) - ((item.quantidade * item.valor_unidade * 0.0003) + item.taxa_corretagem)).toFixed(2)  %></td>
-                       <% } %>
-                   </tr>
-                <% }) %>
-            </tbody>
-        </table>
+        </div>
     </div>
-    <script src="/scripts/invest.js"></script>
+    <script src="scripts/investimento.js"></script>
+    <script src="https://kit.fontawesome.com/8f0a4b5e75.js" crossorigin="anonymous"></script>
 </body>
 </html>

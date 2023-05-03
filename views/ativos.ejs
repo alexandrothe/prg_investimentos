@@ -1,5 +1,6 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,13 +14,13 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="http://localhost:4613/app/investimentos">Cadastrar Investimentos</a>
+                        <a href="#">Cadastrar Investimentos</a>
                     </li>
                     <li>
-                        <a href="http://localhost:4613/app/ativos">Cadrastrar Ativos</a>
+                        <a href="#">Cadrastrar Ativos</a>
                     </li>
                     <li>
-                        <a href="https://www.google.com">Ver Investimentos</a>
+                        <a href="#">Ver Investimentos</a>
                     </li>
                 </ul>
             </nav>
@@ -27,23 +28,18 @@
     </header>
     <main>
         <div class="main-content">
-            <% if(noAtivos) { %>
-                <div class="head-main">
-                    <div class="error-field">
-                        <p>você não tem nenhum ativos cadrastdos</p>
-                        <p>cadastre pelo menos 1 ativo</p>
-                    </div>
-                </div>
-            <% } %>
+            <div class="server-erros">
+                <p>Você precisa ter pelo menos 1 Ativo Cadastrado</p>
+            </div>
             <div class="body-main">
-                <form method="post" action="ativos/post">
+                <form method="post" action="ativos/post" id="form-post">
                     <div class="input-field">
                         <label for="nome-empresa">Nome da Empresa:</label>
                         <input type="text" placeholder="digite o nome da empresa" name="nome_empresa" id="nome-empresa" />
                     </div>
                     <div class="input-field">
                         <label for="cnpj-empresa">CNPJ da Empresa:</label>
-                        <input type="text" placeholder="digite o CNPJ da empresa" name="cnpj_empresa" id="cnpj-empresa" />
+                        <input type="text" placeholder="digite o CNPJ da empresa" maxlength="18" name="cnpj_empresa" id="cnpj-empresa" />
                     </div>
                     <div class="input-field">
                         <label for="codigo-ativo">Codigo do Ativo:</label>
@@ -54,7 +50,11 @@
                     </div>
                 </form>
             </div>
+            <div class="form-erros">
+                <p id="erro-msg"></p>
+            </div>
         </div>
     </main>
+    <script src="scripts/ativos.js"></script>
 </body>
 </html>
