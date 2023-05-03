@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/updateAtivos.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="update-field">
+            <div class="put-form">
+                <div class="input-field">
+                    <div class="put-form-item">
+                        <label for="nome-put">Nome da Empresa: </label>
+                        <input type="text" value="<%= item.nome %>" id="nome-put" name="nome">
+                    </div>
+
+                    <div class="put-form-item">
+                        <label for="cnpj-put">Codigo CNPJ:</label>
+                        <input type="text" id="cnpj-put" value="<%= item.cnpj %>" name="cnpj">
+                    </div>
+
+                    <div class="put-form-item">
+                        <label for="codigo-put">Código:</label>
+                        <input type="text" value="<%= item.codigo %>" id="codigo-put" name="codigo" />
+                    </div>
+                </div>
+                <div class="button-field">
+                    <button id="voltar-btn">
+                        Voltar
+                    </button>
+                    <button id="put-form-btn">
+                        Adicionar
+                    </button>
+                    
+                </div>
+            </div>
+            <div class="form-error">
+                <p id="erro-msg"></p>
+            </div>
+        </div>
+    </div>
+    <script src="/scripts/updateAtivos.js"></script>
+</body>
+</html>

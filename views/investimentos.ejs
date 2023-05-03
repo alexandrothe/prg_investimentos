@@ -30,14 +30,16 @@
                 <div class="form-input-post">
                     <div>
                         <label for="post-data">Data:</label>
-                        <input type="text" id="post-data" name="data">
+                        <input type="text" id="post-data" name="data" maxlength="">
                     </div>
         
                     <div>
                         <label for="post-codigo">Código:</label>
                         <select id="post-codigo" name="codigo">
-                            <option value="MGLU4">MGLU3</option>
-                            <option value="MG3">MG3</option>
+                            <% codigoList.forEach( (codigo) => { %>
+                                <option value="<%= codigo %>"><%= codigo %></option>
+                                <option value="<%= codigo %>"><%= codigo %></option>
+                            <% }) %>
                         </select>
                     </div>
         
@@ -54,8 +56,8 @@
                     <div>
                         <label for="post-compra_venda">Compra/Venda:</label>
                         <select id="post-compra_venda" name="compra_venda">
-                            <option value="c">Compra</option>
-                            <option value="v">Venda</option>
+                            <option value="C" selected>Compra</option>
+                            <option value="V">Venda</option>
                         </select>
                     </div>
         
@@ -82,189 +84,42 @@
                     <p>Taxa de Imposto</p>
                     <p>Valor Final</p>
                     <div class="filter-icon">
-                        <!-- <i class="fa-solid fa-bars-filter"></i> -->
                         <i class="mdi mdi-filter-variant"></i>
                     </div>
                 </div>
                 <div class="table-body">
-                    <div class="item-field">
-                        <div class="item">
-                            <p>01-02-2005</p>
-                            <p>MGLU3</p>
-                            <p>100</p>
-                            <p>15.4</p>
-                            <p>C</p>
-                            <p>1540</p>
-                            <p>5</p>
-                            <p>10</p>
-                            <p>12501</p>
-                        </div>
-                        <div class="item">
-                            <p>01-02-2005</p>
-                            <p>MGLU3</p>
-                            <p>100</p>
-                            <p>15.4</p>
-                            <p>C</p>
-                            <p>1540</p>
-                            <p>5</p>
-                            <p>10</p>
-                            <p>12501</p>
-                        </div>
-                        <div class="item">
-                            <p>01-02-2005</p>
-                            <p>MGLU3</p>
-                            <p>1300</p>
-                            <p>153.4</p>
-                            <p>C</p>
-                            <p>1540</p>
-                            <p>53</p>
-                            <p>130</p>
-                            <p>123501</p>
-                        </div>
-                        <div class="item">
-                            <p>01-02-2005</p>
-                            <p>MGLU3</p>
-                            <p>1030</p>
-                            <p>15.34</p>
-                            <p>C</p>
-                            <p>14540</p>
-                            <p>53</p>
-                            <p>1043</p>
-                            <p>1243501</p>
-                        </div>
-                        <div class="item">
-                            <p>01-02-2005</p>
-                            <p>MGLU3</p>
-                            <p>10450</p>
-                            <p>1535.4</p>
-                            <p>C</p>
-                            <p>1540</p>
-                            <p>54</p>
-                            <p>103</p>
-                            <p>1250.23</p>
-                        </div>
-                        <div class="item">
-                            <p>01-02-2005</p>
-                            <p>MGLU3</p>
-                            <p>10450</p>
-                            <p>1535.4</p>
-                            <p>C</p>
-                            <p>1540</p>
-                            <p>54</p>
-                            <p>103</p>
-                            <p>1250.23</p>
-                        </div>
-                        <div class="item">
-                            <p>01-02-2005</p>
-                            <p>MGLU3</p>
-                            <p>10450</p>
-                            <p>1535.4</p>
-                            <p>C</p>
-                            <p>1540</p>
-                            <p>54</p>
-                            <p>103</p>
-                            <p>1250.23</p>
-                        </div>
-                        <div class="item">
-                            <p>01-02-2005</p>
-                            <p>MGLU3</p>
-                            <p>10450</p>
-                            <p>1535.4</p>
-                            <p>C</p>
-                            <p>1540</p>
-                            <p>54</p>
-                            <p>103</p>
-                            <p>1250.23</p>
-                        </div>
-                        <div class="item">
-                            <p>01-02-2005</p>
-                            <p>MGLU3</p>
-                            <p>10450</p>
-                            <p>1535.4</p>
-                            <p>C</p>
-                            <p>1540</p>
-                            <p>54</p>
-                            <p>103</p>
-                            <p>1250.23</p>
-                        </div>
+                    <div class="item-field" data-allInvestimentos="<%= allInvestimentos %>">
+                        <% allInvestimentos.forEach( (item) => { %>
+                            <div class="item">
+                                <p><%=item.data %></p>
+                                <p><%= item.codigo_ativo %></p>
+                                <p><%= item.quantidade %></p>
+                                <p><%= item.valor_unidade %></p>
+                                <p><%= item.compra_ou_venda %></p>
+                                <p><%= item.quantidade * item.valor_unidade %></p>
+                                <p><%= item.taxa_corretagem %></p>
+                                <p><%= ((item.quantidade * item.valor_unidade) * 0.0003 ).toFixed(2) %></p>
+                                <% if (item.compra_ou_venda === "c") { %>
+                                    <p><%= ( (item.quantidade * item.valor_unidade) + ((item.quantidade * item.valor_unidade) * 0.0003) + item.taxa_corretagem).toFixed(2) %></p>
+                                <% } else{ %>
+                                    <p><%= ( (item.quantidade * item.valor_unidade) - ((item.quantidade * item.valor_unidade) * 0.0003) + item.taxa_corretagem).toFixed(2) %></p>
+                                <% } %>
+                            </div>                            
+                        <% }); %>
                     </div>
                     <div class="button-field">
-                        <div class="button-item">
-                            <a href="./update.html?name=Rafael">
-                                <div class="update-icon">
-                                    <i class="fa-solid fa-pencil"></i>
+                        <% allInvestimentos.forEach( (item) => { %>
+                            <div class="button-item">
+                                <a href="http://localhost:4613/app/investimentos/update/<%= item.id %>/">
+                                    <div class="update-icon">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </div>
+                                </a>
+                                <div class="delete-icon">
+                                    <i class="fa-solid fa-x" onclick="deleteItem(event)"  data-item-id="<%= item.id %>"></i>
                                 </div>
-                            </a>
-                            <a href="./delete?id=23">
-                                <div class="delete-icon" >
-                                    <i class="fa-solid fa-x"></i>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="button-item">
-                            <div class="update-icon"> 
-                                <i class="fa-solid fa-pencil"></i>
                             </div>
-                            <div class="delete-icon">
-                                <i class="fa-solid fa-x"></i>
-                            </div>
-                        </div>
-                        <div class="button-item">
-                            <div class="update-icon"> 
-                                <i class="fa-solid fa-pencil"></i>
-                            </div>
-                            <div class="delete-icon">
-                                <i class="fa-solid fa-x"></i>
-                            </div>
-                        </div>
-                        <div class="button-item">
-                            <div class="update-icon"> 
-                                <i class="fa-solid fa-pencil"></i>
-                            </div>
-                            <div class="delete-icon">
-                                <i class="fa-solid fa-x"></i>
-                            </div>
-                        </div>
-                        <div class="button-item">
-                            <div class="update-icon"> 
-                                <i class="fa-solid fa-pencil"></i>
-                            </div>
-                            <div class="delete-icon">
-                                <i class="fa-solid fa-x"></i>
-                            </div>
-                        </div>
-                        <div class="button-item">
-                            <div class="update-icon"> 
-                                <i class="fa-solid fa-pencil"></i>
-                            </div>
-                            <div class="delete-icon">
-                                <i class="fa-solid fa-x"></i>
-                            </div>
-                        </div>
-                        <div class="button-item">
-                            <div class="update-icon"> 
-                                <i class="fa-solid fa-pencil"></i>
-                            </div>
-                            <div class="delete-icon">
-                                <i class="fa-solid fa-x"></i>
-                            </div>
-                        </div>
-                        <div class="button-item">
-                            <div class="update-icon"> 
-                                <i class="fa-solid fa-pencil"></i>
-                            </div>
-                            <div class="delete-icon">
-                                <i class="fa-solid fa-x"></i>
-                            </div>
-                        </div>
-                        <div class="button-item">
-                            <div class="update-icon"> 
-                                <i class="fa-solid fa-pencil"></i>
-                            </div>
-                            <div class="delete-icon">
-                                <i class="fa-solid fa-x"></i>
-                            </div>
-                        </div>
+                        <% }); %>
                     </div>
                 </div>
             </div>
@@ -309,7 +164,7 @@
             </div>
         </div>
     </div>
-    <script src="scripts/investimento.js"></script>
+    <script src="/scripts/investimento.js"></script>
     <script src="https://kit.fontawesome.com/8f0a4b5e75.js" crossorigin="anonymous"></script>
 </body>
 </html>

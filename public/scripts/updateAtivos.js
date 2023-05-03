@@ -1,6 +1,11 @@
-let formPost = document.getElementById('form-post');
-let postCodigo = document.getElementById('codigo-ativo');
-let cnpjEmpresa = document.getElementById('cnpj-empresa');
+const nomeEmpresa = document.getElementById('nome-put');
+const cnpjEmpresa = document.getElementById('cnpj-put');
+const codigo = document.getElementById('codigo-put');
+
+
+const putFormBtn = document.getElementById('put-form-btn');
+const erroField = document.getElementById("erro-msg");
+
 
 
 
@@ -25,6 +30,7 @@ cnpjEmpresa.addEventListener('keydown', (e) => {
         return
     }
 })
+
 cnpjEmpresa.addEventListener('input', (e) => {
     if(e.target.value.length == 2){
         cnpjEmpresa.value += '.'
@@ -41,14 +47,12 @@ cnpjEmpresa.addEventListener('input', (e) => {
 })
 
 
-
-postCodigo.addEventListener('input', (e) => {
-    postCodigo.value = e.target.value.toUpperCase();
-})
-
-formPost.addEventListener('submit', (event) => {
+putFormBtn.addEventListener('click', async () => {
     try{
-        event.preventDefault()
+        let idToUpdate = window.location.href.split('/')[6];
+
+        console.log(idToUpdate)
+        // event.preventDefault()
         const regexCodePattern = /^[A-Z]{4}\d{1,2}$/;
     
         let cnpjPattern = /^(\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2})$/;
@@ -57,37 +61,28 @@ formPost.addEventListener('submit', (event) => {
             throw "CNPJ Invalido"
         }
 
-        if (!regexCodePattern.test(postCodigo.value)) {
+        if (!regexCodePattern.test(codigo.value)) {
             // If the input does not match the pattern, show the error message
             throw "Codigo Invalido"
         }
 
-        formPost.submit();
+        const dataToPut = {
+            nome:nomeEmpresa.value,
+            cnpj:cnpjEmpresa.value,
+            codigo: codigo.value
+        }
+
+        await fetch('http://localhost:4613/app/ativos/update/'+idToUpdate, {
+            method:"PUT",
+            headers:{"Content-Type":"application/json"},
+            body: JSON.stringify(dataToPut)
+        });
+
+        window.location.href = "http://localhost:4613/app/ativos"
+        
+        erroField.textContent = "";
     }
     catch(err){
-        showFormError(err)
+        erroField.textContent = `Error: ${err}`;
     }
-})
-
-
-function showFormError(msg){
-    const errorArea = document.getElementById('erro-msg')
-    errorArea.textContent = msg;
-}
-
-
-
-
-
-
-async function deleteItem(event){
-    const idToDelete = event.target.getAttribute('data-item-id');
-
-    await fetch('http://localhost:4613/app/ativos/delete/'+idToDelete, {
-        method:'DELETE'
-    });
-
-    window.location.href = "http://localhost:4613/app/ativos"
-
-}
-
+});

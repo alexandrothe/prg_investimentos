@@ -154,8 +154,8 @@ form button:hover {
     border-radius: 8px;
     box-shadow: 0 0 2px 2px silver;
     height: max-content;
-    padding:8px;
-    width: 40px;
+    /*padding:8px; 
+    width: 40px; */
     text-align: center;
     font-size: 1.3rem;
     cursor: pointer;
@@ -163,6 +163,7 @@ form button:hover {
 .update-icon{
     color: gray;
     border-radius: 10px;
+    z-index: 50;
 }
 .update-icon:hover{
     background-color: silver;
@@ -170,6 +171,10 @@ form button:hover {
 .delete-icon{
     background-color: red;
     color: white;
+}
+.delete-icon i, .update-icon i{
+    padding: 8px;
+    width: 40px;
 }
 .delete-icon:hover{
     background-color: rgb(189, 13, 13);

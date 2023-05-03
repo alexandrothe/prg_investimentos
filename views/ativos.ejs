@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/ativos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css">
     <title>Document</title>
 </head>
 <body>
@@ -28,9 +29,11 @@
     </header>
     <main>
         <div class="main-content">
-            <div class="server-erros">
-                <p>Você precisa ter pelo menos 1 Ativo Cadastrado</p>
-            </div>
+            <% if(noAtivos) { %>
+                <div class="server-erros">
+                    <p>Você precisa ter pelo menos 1 Ativo Cadastrado</p>
+                </div>
+            <% } %>
             <div class="body-main">
                 <form method="post" action="ativos/post" id="form-post">
                     <div class="input-field">
@@ -46,7 +49,7 @@
                         <input type="text" placeholder="digite o codigo do ativo" name="codigo_ativo" id="codigo-ativo" />
                     </div>
                     <div class="button-field">
-                        <button>Adicionar</button>
+                        <button type="submit">Adicionar</button>
                     </div>
                 </form>
             </div>
@@ -54,7 +57,43 @@
                 <p id="erro-msg"></p>
             </div>
         </div>
+        <div class="table-content">
+            <div class="table-header">
+                <p>Empresa</p>
+                <p>Código</p>
+                <p>CNPJ</p>
+                <div class="filter-icon">
+                    <i class="mdi mdi-filter-variant"></i>
+                </div>
+            </div>
+            <div class="table-body">
+                <div class="item-field">
+                    <% allAtivos.forEach( (ativo) => { %>
+                    <div class="item">
+                        <p><%= ativo.nome %></p>
+                        <p><%= ativo.codigo %></p>
+                        <p><%= ativo.cnpj %></p>    
+                    </div>                            
+                    <% }) %>
+                </div>
+                <div class="button-field">
+                    <% allAtivos.forEach( (ativo) => { %>
+                        <div class="button-item">
+                            <a href="http://localhost:4613/app/ativos/update/<%= ativo.id %>/">
+                                <div class="update-icon">
+                                    <i class="fa-solid fa-pencil"></i>
+                                </div>
+                            </a>
+                            <div class="delete-icon">
+                                <i class="fa-solid fa-x" onclick="deleteItem(event)"  data-item-id="<%= ativo.id %>"></i>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
     </main>
-    <script src="scripts/ativos.js"></script>
+    <script src="https://kit.fontawesome.com/8f0a4b5e75.js" crossorigin="anonymous"></script>
+    <script src="/scripts/ativos.js"></script>
 </body>
 </html>

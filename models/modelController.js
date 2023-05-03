@@ -77,16 +77,15 @@ class ModelController{
 
     async deleteAtivos(params){
         try{
-            const row = await this.#ativos.findOne(params);
-            
+            let row = await this.#ativos.findOne(params);
             if(row){
-                row.destroy();
+                await row.destroy();
+                console.log('Ativo deleted successfully')
             }
             else{
-                throw('Ativo not found')
+                throw "Error cound not find the Ativos"
             }
 
-            console.log('Ativo deleted successfully')
         }
         catch(err){
             console.log('could not delete the Ativo!!!');
@@ -96,17 +95,17 @@ class ModelController{
 
     async deleteInvestimentos(params){
         try{
-            const row = await this.#investimentos.findOne(params);
-
+            console.log(params)
+            let row = await this.#investimentos.findOne(params);
+            
             if(row){
-
-                row.destroy();
+                row.destroy()
+                console.log('Investimentos deleted successfully')
             }
             else{
-                throw("Investimento Not Found")
+                throw "Erro could not find the Investimentos"
             }
-
-            console.log('Investimentos deleted successfully')
+           
         }
         catch(err){
             console.log('Could not delete Investimentos!!!');
@@ -137,9 +136,25 @@ class ModelController{
             console.log(`Error:${err}`)
         }
     }
+    async findOneInvestimentos(params){
+        try{
+           return  await this.#investimentos.findOne(params);
+        }
+        catch(err){
+            console.log('Could not find one investimentos');
+            console.log('Erro:',err);
+        }
+    }
+    async findOneAtivos(params){
+        try{
+           return  await this.#ativos.findOne(params);
+        }
+        catch(err){
+            console.log('Could not find one Ativos');
+            console.log('Erro:',err);
+        }
+    }
 }
 
-// let model = new ModelController();
-// model.updateInvestimentos({AtivoId:2}, {where:{AtivoId:3}});
 
 module.exports = ModelController
