@@ -10,6 +10,7 @@ header{
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 50px;
 }
 
 .header-content{
@@ -37,8 +38,5 @@ header{
     padding:10px;
 }
 .item-link:hover{
-    background-color: #222;
-}
-.item-link[data-active]{
     background-color: #222;
 }

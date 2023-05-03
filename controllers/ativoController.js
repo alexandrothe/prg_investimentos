@@ -8,7 +8,7 @@ async function getAtivos(req, res){
     const noAtivos = req.query.noativos;
     const allAtivos = await myModel.findAllAtivos();
 
-    allAtivos.forEach( item => console.log(item.cnpj))
+    console.log(allAtivos.length)
 
     res.render('ativos.ejs', { noAtivos, allAtivos});
 }

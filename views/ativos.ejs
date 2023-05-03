@@ -10,26 +10,11 @@
     <title>Document</title>
 </head>
 <body>
-    <header>
-        <div class="navbar">
-            <nav>
-                <ul>
-                    <li>
-                        <a href="#">Cadastrar Investimentos</a>
-                    </li>
-                    <li>
-                        <a href="#">Cadrastrar Ativos</a>
-                    </li>
-                    <li>
-                        <a href="#">Ver Investimentos</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    
+    <%- include('header.ejs') %>
     <main>
         <div class="main-content">
-            <% if(noAtivos) { %>
+            <% if(allAtivos.length === 0){ %>
                 <div class="server-erros">
                     <p>Você precisa ter pelo menos 1 Ativo Cadastrado</p>
                 </div>
@@ -57,41 +42,43 @@
                 <p id="erro-msg"></p>
             </div>
         </div>
-        <div class="table-content">
-            <div class="table-header">
-                <p>Empresa</p>
-                <p>Código</p>
-                <p>CNPJ</p>
-                <div class="filter-icon">
-                    <i class="mdi mdi-filter-variant"></i>
+        <% if(allAtivos.length >= 1) { %>
+            <div class="table-content">
+                <div class="table-header">
+                    <p>Empresa</p>
+                    <p>Código</p>
+                    <p>CNPJ</p>
+                    <div class="filter-icon">
+                        <i class="mdi mdi-filter-variant"></i>
+                    </div>
                 </div>
-            </div>
-            <div class="table-body">
-                <div class="item-field">
-                    <% allAtivos.forEach( (ativo) => { %>
-                    <div class="item">
-                        <p><%= ativo.nome %></p>
-                        <p><%= ativo.codigo %></p>
-                        <p><%= ativo.cnpj %></p>    
-                    </div>                            
-                    <% }) %>
-                </div>
-                <div class="button-field">
-                    <% allAtivos.forEach( (ativo) => { %>
-                        <div class="button-item">
-                            <a href="http://localhost:4613/app/ativos/update/<%= ativo.id %>/">
-                                <div class="update-icon">
-                                    <i class="fa-solid fa-pencil"></i>
+                <div class="table-body">
+                    <div class="item-field">
+                        <% allAtivos.forEach( (ativo) => { %>
+                        <div class="item">
+                            <p><%= ativo.nome %></p>
+                            <p><%= ativo.codigo %></p>
+                            <p><%= ativo.cnpj %></p>    
+                        </div>                            
+                        <% }) %>
+                    </div>
+                    <div class="button-field">
+                        <% allAtivos.forEach( (ativo) => { %>
+                            <div class="button-item">
+                                <a href="http://localhost:4613/app/ativos/update/<%= ativo.id %>/">
+                                    <div class="update-icon">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </div>
+                                </a>
+                                <div class="delete-icon">
+                                    <i class="fa-solid fa-x" onclick="deleteItem(event)"  data-item-id="<%= ativo.id %>"></i>
                                 </div>
-                            </a>
-                            <div class="delete-icon">
-                                <i class="fa-solid fa-x" onclick="deleteItem(event)"  data-item-id="<%= ativo.id %>"></i>
                             </div>
-                        </div>
-                    <% }); %>
+                        <% }); %>
+                    </div>
                 </div>
             </div>
-        </div>
+        <% } %>
     </main>
     <script src="https://kit.fontawesome.com/8f0a4b5e75.js" crossorigin="anonymous"></script>
     <script src="/scripts/ativos.js"></script>

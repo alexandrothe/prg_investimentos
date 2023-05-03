@@ -7,23 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css">
 </head>
 <body>
-    <header>
-        <div class="navbar">
-            <nav>
-                <ul>
-                    <li>
-                        <a href="http://localhost:4613/app/investimentos">Cadastrar Investimentos</a>
-                    </li>
-                    <li>
-                        <a href="http://localhost:4613/app/ativos">Cadrastrar Ativos</a>
-                    </li>
-                    <li>
-                        <a href="https://www.google.com">Ver Investimentos</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <%- include('header.ejs') %>
     <div class="container" >
         <div class="form-container">
             <form method="post" id="myForm" action="/app/investimentos/post">

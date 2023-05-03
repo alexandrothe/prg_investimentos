@@ -2,14 +2,13 @@ body{
     margin: 0;
     padding: 0;
 }
-.container{
-    height: 100vh;
-    display: grid;
-    place-items: center;
-}
 
 /* START PUT FORM STYLE */
 .update-field{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: #e7e4e4;
     padding:50px;
     border-radius: 20px;
