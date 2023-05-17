@@ -35,7 +35,7 @@ const Investimentos = sequelize.define('Investimentos', {
         type: DataTypes.DATEONLY,
         allowNull:false
     },
-    codigo_ativo:{
+    codigoAtivo:{
         type: DataTypes.STRING(6),
         allowNull:false
     },
@@ -43,15 +43,15 @@ const Investimentos = sequelize.define('Investimentos', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    valor_unidade:{
+    valorUnidade:{
         type: DataTypes.FLOAT,
         allowNull:false
     },
-    compra_ou_venda:{
+    compraVenda:{
         type: DataTypes.STRING(1),
         allowNull:false
     },
-    taxa_corretagem:{
+    taxaCorretagem:{
         type: DataTypes.FLOAT,
         allowNull:false
     }

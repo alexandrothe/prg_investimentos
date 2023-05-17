@@ -10,22 +10,22 @@ class ModelController{
     async insertInvestimentos( dict_values ){
         const {
             data,
-            codigo_ativo,
+            codigoAtivo,
             quantidade,
-            valor_unidade,
-            compra_ou_venda,
-            taxa_corretagem,
+            valorUnidade,
+            compraVenda,
+            taxaCorretagem,
             AtivoId
         } = dict_values;
         
         try{
             await this.#investimentos.create({
                 data: data,
-                codigo_ativo: codigo_ativo,
+                codigoAtivo: codigoAtivo,
                 quantidade: quantidade,
-                valor_unidade: valor_unidade,
-                compra_ou_venda: compra_ou_venda,
-                taxa_corretagem: taxa_corretagem,
+                valorUnidade: valorUnidade,
+                compraVenda: compraVenda,
+                taxaCorretagem: taxaCorretagem,
                 AtivoId:AtivoId
             });
 

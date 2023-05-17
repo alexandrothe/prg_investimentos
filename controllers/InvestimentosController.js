@@ -8,6 +8,10 @@ async function getInvestimento(req, res){
     let allAtivos = (await myModel.findAllAtivos()).map( item => item); 
     let allInvestimentos = await myModel.findAllInvestimentos();
 
+
+    if( req.query.target){
+        console.log('thres is taget')
+    }
     if(allAtivos.length === 0) {
         res.redirect('/app/ativos?noativos=true')
     }
@@ -18,8 +22,8 @@ async function getInvestimento(req, res){
 }
 async function addInvestimentos(req, res){
 
-    const { data, codigo, quantidade, valor_unitario, compra_venda,
-        taxa_corretagem} = req.body;
+    const { data, codigo, quantidade, valorUnitario, compraVenda,
+        taxaCorretagem} = req.body;
     
         
         // getting the id of the ativo, searching by the codigo
@@ -29,11 +33,11 @@ async function addInvestimentos(req, res){
 
         await Investimentos.create({
             data: data,
-            codigo_ativo:codigo,
+            codigoAtivo:codigo,
             quantidade:quantidade,
-            valor_unidade:valor_unitario,
-            compra_ou_venda:compra_venda,
-            taxa_corretagem:taxa_corretagem,
+            valorUnidade:valorUnitario,
+            compraVenda:compraVenda,
+            taxaCorretagem:taxaCorretagem,
             AtivoId: AtivoId
         });
         
@@ -64,9 +68,9 @@ async function updateInvestimentos(req, res){
         data: data,
         codigo_ativo:codigo,
         quantidade:quantidade,
-        valor_unidade:valorUnitario,
-        compra_ou_venda:compraVenda,
-        taxa_corretagem:taxaCorretagem,
+        valorUnidade:valorUnitario,
+        compraVenda:compraVenda,
+        taxaCorretagem:taxaCorretagem,
         AtivoId: AtivoId
     },{where:{id:id}});
     

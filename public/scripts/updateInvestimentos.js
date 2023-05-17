@@ -61,7 +61,7 @@ putFormBtn.addEventListener('click', async () => {
             taxaCorretagem: taxaCorretagem.value,
         }
 
-        await fetch('http://localhost:4613/app/investimentos/update/'+idToUpdate, {
+        await fetch('http://localhost:4613/app/investimentos/update/'+ idToUpdate, {
             method:"PUT",
             headers:{"Content-Type":"application/json"},
             body: JSON.stringify(dataToPut)

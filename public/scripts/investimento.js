@@ -1,6 +1,7 @@
 const filteIcon = document.querySelector('.filter-icon');
 const updatePopuop = document.querySelector('.filter-field');
 const resetFilterBtn = document.querySelector('#reset-filter-btn');
+const applyFilterBtn = document.getElementById('apply-filter-btn');
 const formPost = document.getElementById('myForm');
 
 
@@ -142,4 +143,10 @@ postData.addEventListener('input', (e) => {
     if (e.target.value.length === 5){
         postData.value += '/'
     }
+})
+
+
+
+applyFilterBtn.addEventListener('click', () => {
+    
 })

@@ -22,7 +22,6 @@
                         <select id="post-codigo" name="codigo">
                             <% codigoList.forEach( (codigo) => { %>
                                 <option value="<%= codigo %>"><%= codigo %></option>
-                                <option value="<%= codigo %>"><%= codigo %></option>
                             <% }) %>
                         </select>
                     </div>
@@ -34,12 +33,12 @@
         
                     <div>
                         <label for="post-valor-unitario">Valor Unitário:</label>
-                        <input type="text" id="post-valor-unitario" name="valor_unitario">
+                        <input type="text" id="post-valor-unitario" name="valorUnitario">
                     </div>
         
                     <div>
                         <label for="post-compra_venda">Compra/Venda:</label>
-                        <select id="post-compra_venda" name="compra_venda">
+                        <select id="post-compra_venda" name="compraVenda">
                             <option value="C" selected>Compra</option>
                             <option value="V">Venda</option>
                         </select>
@@ -47,7 +46,7 @@
         
                     <div>
                         <label for="post-taxa_corretagem">Taxa Corretagem:</label>
-                        <input type="text" id="post-taxa-corretagem" name="taxa_corretagem">
+                        <input type="text" id="post-taxa-corretagem" name="taxaCorretagem">
                     </div>    
                 </div>
                 <div id="form-post-btn">
@@ -75,24 +74,26 @@
                     <div class="item-field" data-allInvestimentos="<%= allInvestimentos %>">
                         <% allInvestimentos.forEach( (item) => { %>
                             <div class="item">
-                                <p><%=item.data %></p>
-                                <p><%= item.codigo_ativo %></p>
+                                <p><%= item.data %></p>
+                                <p><%= item.codigoAtivo %></p>
                                 <p><%= item.quantidade %></p>
-                                <p><%= item.valor_unidade %></p>
-                                <p><%= item.compra_ou_venda %></p>
-                                <p><%= item.quantidade * item.valor_unidade %></p>
-                                <p><%= item.taxa_corretagem %></p>
-                                <p><%= ((item.quantidade * item.valor_unidade) * 0.0003 ).toFixed(2) %></p>
-                                <% if (item.compra_ou_venda === "c") { %>
-                                    <p><%= ( (item.quantidade * item.valor_unidade) + ((item.quantidade * item.valor_unidade) * 0.0003) + item.taxa_corretagem).toFixed(2) %></p>
+                                <p><%= item.valorUnidade %></p>
+                                <p><%= item.compraVenda %></p>
+                                <p><%= item.quantidade * item.valorUnidade %></p>
+                                <p><%= item.taxaCorretagem %></p>
+                                <p><%= ((item.quantidade * item.valorUnidade) * 0.0003 ).toFixed(2) %></p>
+                                <% if (item.compraVenda === "c") { %>
+                                    <p><%= ( (item.quantidade * item.valorUnidade) + ((item.quantidade * item.valorUnidade) * 0.0003) + item.taxaCorretagem).toFixed(2) %></p>
                                 <% } else{ %>
-                                    <p><%= ( (item.quantidade * item.valor_unidade) - ((item.quantidade * item.valor_unidade) * 0.0003) + item.taxa_corretagem).toFixed(2) %></p>
+                                    <p><%= ( (item.quantidade * item.valorUnidade) - ((item.quantidade * item.valorUnidade) * 0.0003) + item.taxaCorretagem).toFixed(2) %></p>
                                 <% } %>
                             </div>                            
                         <% }); %>
                     </div>
                     <div class="button-field">
-                        <% allInvestimentos.forEach( (item) => { %>
+                        <
+                        
+                        % allInvestimentos.forEach( (item) => { %>
                             <div class="button-item">
                                 <a href="http://localhost:4613/app/investimentos/update/<%= item.id %>/">
                                     <div class="update-icon">
@@ -111,22 +112,22 @@
                 <div class="filter-form">
                     <div class="filter-form-item">
                         <label for="filter-data-investimento">Data Investimento</label>
-                        <select id="filter-data-investimento" name="data-investimento">
+                        <select id="filter-data-investimento" name="dataInvestimento">
                             <option selected value="">selecione</option>
-                            <option>Ordem Crescente</option>
-                            <option>Ordem Decrescente</option>
+                            <option value="ASC">Ordem Crescente</option>
+                            <option value="DESC">Ordem Decrescente</option>
                         </select>
                     </div>
                     <div class="filter-form-item">
                         <label for="filter-codigo-ativo">Codigo Ativo</label>
-                        <select name="codigo-ativo" id="filter-codigo-ativo">
+                        <select name="codigoAtivo" id="filter-codigo-ativo">
                             <option selected>selecione</option>
                             <option>MGLU3</option>
                         </select>
                     </div>
                     <div class="filter-form-item">
                         <label for="filter-compra-venda">Compra ou venda</label>
-                        <select name="compra-venda" id="filter-compra-venda">
+                        <select name="compraVenda" id="filter-compra-venda">
                             <option selected>selecione</option>
                             <option>Compra</option>
                             <option>Venda</option>
@@ -134,7 +135,7 @@
                     </div>
                     <div class="filter-form-item">
                         <label for="filter-valor-final">valor final</label>
-                        <select id="filter-valor-final" name="valor-final">
+                        <select id="filter-valor-final" name="valorFinal">
                             <option selected>selecione</option>
                             <option>Ordem Crescente</option>
                             <option>Ordem Decrescente</option>
@@ -143,7 +144,7 @@
                 </div>
                 <div class="filter-form-button">
                     <button id="reset-filter-btn">Limpar</button>
-                    <button id="filter-form-btn">Aplicar</button>
+                    <button id="apply-filter-btn">Aplicar</button>
                 </div>
             </div>
         </div>
