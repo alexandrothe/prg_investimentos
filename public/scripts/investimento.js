@@ -148,5 +148,16 @@ postData.addEventListener('input', (e) => {
 
 
 applyFilterBtn.addEventListener('click', () => {
-    
-})
+
+    let urlQuery = '';
+
+    if(filterData.value){ urlQuery += `data=${filterData.value}&` }
+    if(filterCodigoAtivo.value){  urlQuery += `codigoAtivo=${filterCodigoAtivo.value}&` }
+    if(filterCompraVenda.value){ urlQuery += `compraVenda=${filterCompraVenda.value}&` }
+    if(filterValorFinal.value){ urlQuery += `valorFinal=${filterValorFinal.value}&`}
+
+    //  {} length = 2  so ist null
+
+    if(!urlQuery.length){ window.location.href = '/app/investimentos?filter=false' }
+    else{ window.location.href = '/app/investimentos?filter=true&'+urlQuery }
+});

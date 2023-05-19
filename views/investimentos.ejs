@@ -91,9 +91,7 @@
                         <% }); %>
                     </div>
                     <div class="button-field">
-                        <
-                        
-                        % allInvestimentos.forEach( (item) => { %>
+                        <% allInvestimentos.forEach( (item) => { %>
                             <div class="button-item">
                                 <a href="http://localhost:4613/app/investimentos/update/<%= item.id %>/">
                                     <div class="update-icon">
@@ -121,24 +119,26 @@
                     <div class="filter-form-item">
                         <label for="filter-codigo-ativo">Codigo Ativo</label>
                         <select name="codigoAtivo" id="filter-codigo-ativo">
-                            <option selected>selecione</option>
-                            <option>MGLU3</option>
+                            <option selected value="">selecione</option>
+                            <% codigoList.forEach( (codigo) => { %>
+                                <option value="<%= codigo %>"><%= codigo %></option>
+                            <% }) %>
                         </select>
                     </div>
                     <div class="filter-form-item">
                         <label for="filter-compra-venda">Compra ou venda</label>
                         <select name="compraVenda" id="filter-compra-venda">
-                            <option selected>selecione</option>
-                            <option>Compra</option>
-                            <option>Venda</option>
+                            <option selected value="">selecione</option>
+                            <option value="C">Compra</option>
+                            <option value="V">Venda</option>
                         </select>
                     </div>
                     <div class="filter-form-item">
                         <label for="filter-valor-final">valor final</label>
                         <select id="filter-valor-final" name="valorFinal">
-                            <option selected>selecione</option>
-                            <option>Ordem Crescente</option>
-                            <option>Ordem Decrescente</option>
+                            <option selected value="">selecione</option>
+                            <option value="ASC">Ordem Crescente</option>
+                            <option value="DESC">Ordem Decrescente</option>
                         </select>
                     </div>
                 </div>

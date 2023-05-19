@@ -1,14 +1,10 @@
-const ModelController = require('../models/modelController');
-const {Ativos} = require('../models/schemaModel');
+const { Ativos } = require('../models/schemaModel');
 
-const myModel = new ModelController;
 
 async function getAtivos(req, res){
 
     const noAtivos = req.query.noativos;
-    const allAtivos = await myModel.findAllAtivos();
-
-    console.log(allAtivos.length)
+    const allAtivos = await Ativos.findAll();
 
     res.render('ativos.ejs', { noAtivos, allAtivos});
 }
@@ -35,10 +31,11 @@ async function deleteAtivo(req, res){
 }
 async function pageUpdateAtivo(req, res){
     let id = req.params.id;
-    let item = await myModel.findOneAtivos({where:{id:id}});
+    // let item = await myModel.findOneAtivos({where:{id:id}});
+    let item = await Ativos.findOne({where:{id:id}});
 
 
-    let allAtivos = (await myModel.findAllAtivos()).map( item => item); 
+    let allAtivos = (await Ativos.findAll()); 
     let codigoList = allAtivos.map( item => item.codigo);
     
     res.render('updateAtivos.ejs', { item, codigoList });
@@ -46,7 +43,7 @@ async function pageUpdateAtivo(req, res){
 
 async function updateAtivo(req, res){
     let id = req.params.id;
-    console.log(req.body)
+
     const { nome, cnpj, codigo}= req.body;
 
 
