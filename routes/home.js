@@ -2,6 +2,7 @@ const express = require('express');
 
 const {
     getInvestimento,
+    getPageInvestimento,
     pageUpdateInvestimentos,
     addInvestimentos,
     updateInvestimentos,
@@ -27,7 +28,8 @@ router.put('/ativos/update/:id', updateAtivo);
 router.delete('/ativos/delete/:id', deleteAtivo);
 
 
-router.get('/investimentos', getInvestimento);
+router.get('/investimentos/page', getPageInvestimento);
+router.get('/investimentos/data', getInvestimento);
 router.post('/investimentos/post', addInvestimentos);
 router.get('/investimentos/update/:id', pageUpdateInvestimentos); /// this page will sever the file to make the changes and the got to the put route 
 router.put('/investimentos/update/:id', updateInvestimentos);

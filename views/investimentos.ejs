@@ -72,37 +72,10 @@
                 </div>
                 <div class="table-body">
                     <div class="item-field" data-allInvestimentos="<%= allInvestimentos %>">
-                        <% allInvestimentos.forEach( (item) => { %>
-                            <div class="item">
-                                <p><%= item.data %></p>
-                                <p><%= item.codigoAtivo %></p>
-                                <p><%= item.quantidade %></p>
-                                <p><%= item.valorUnidade %></p>
-                                <p><%= item.compraVenda %></p>
-                                <p><%= item.quantidade * item.valorUnidade %></p>
-                                <p><%= item.taxaCorretagem %></p>
-                                <p><%= ((item.quantidade * item.valorUnidade) * 0.0003 ).toFixed(2) %></p>
-                                <% if (item.compraVenda === "c") { %>
-                                    <p><%= ( (item.quantidade * item.valorUnidade) + ((item.quantidade * item.valorUnidade) * 0.0003) + item.taxaCorretagem).toFixed(2) %></p>
-                                <% } else{ %>
-                                    <p><%= ( (item.quantidade * item.valorUnidade) - ((item.quantidade * item.valorUnidade) * 0.0003) + item.taxaCorretagem).toFixed(2) %></p>
-                                <% } %>
-                            </div>                            
-                        <% }); %>
+                       
                     </div>
                     <div class="button-field">
-                        <% allInvestimentos.forEach( (item) => { %>
-                            <div class="button-item">
-                                <a href="http://localhost:4613/app/investimentos/update/<%= item.id %>/">
-                                    <div class="update-icon">
-                                        <i class="fa-solid fa-pencil"></i>
-                                    </div>
-                                </a>
-                                <div class="delete-icon">
-                                    <i class="fa-solid fa-x" onclick="deleteItem(event)"  data-item-id="<%= item.id %>"></i>
-                                </div>
-                            </div>
-                        <% }); %>
+                        
                     </div>
                 </div>
             </div>

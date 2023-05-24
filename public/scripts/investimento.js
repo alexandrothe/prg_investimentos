@@ -147,7 +147,7 @@ postData.addEventListener('input', (e) => {
 
 
 
-applyFilterBtn.addEventListener('click', () => {
+applyFilterBtn.addEventListener('click',  () => {
 
     let urlQuery = '';
 
@@ -158,6 +158,68 @@ applyFilterBtn.addEventListener('click', () => {
 
     //  {} length = 2  so ist null
 
-    if(!urlQuery.length){ window.location.href = '/app/investimentos?filter=false' }
-    else{ window.location.href = '/app/investimentos?filter=true&'+urlQuery }
+    fetch('http://localhost:4613/app/investimentos/data?filter=true&'+urlQuery)
+    .then( response => response.json())
+    .then( data => {
+        let {codigoList, allInvestimentos} = data;
+        
+        displayData(allInvestimentos,2)
+    })
+    // if(!urlQuery.length){ window.location.href = '/app/investimentos?filter=false' }
+    // else{ window.location.href = '/app/investimentos?filter=true&'+urlQuery }
+    
+
+
 });
+
+
+function displayData(allInvestimentos, codigoList){
+
+    let itemField = document.querySelector('.item-field');
+    let buttonField = document.querySelector('.button-field');
+
+    allInvestimentos.forEach( item => {
+        itemField.innerHTML += `
+        <div class="item">
+            <p>${item.data}</p>
+            <p>${item.codigoAtivo}</p>
+            <p>${item.quantidade }</p>
+            <p>${item.valorUnidade }</p>
+            <p>${item.compraVenda }</p>
+            <p>${item.quantidade * item.valorUnidade }</p>
+            <p>${item.taxaCorretagem }</p>
+            <p>${((item.quantidade * item.valorUnidade) * 0.0003 ).toFixed(2) }</p>
+            <p>
+            ${
+                item.compraVenda === 'c'
+                ? (item.quantidade * item.valorUnidade + (item.quantidade * item.valorUnidade) * 0.0003 + item.taxaCorretagem).toFixed(2)
+                : (item.quantidade * item.valorUnidade - (item.quantidade * item.valorUnidade) * 0.0003 + item.taxaCorretagem).toFixed(2)
+            }
+            </p>
+        </div> `
+
+        buttonField.innerHTML += `
+        <div class="button-item">
+            <a href="http://localhost:4613/app/investimentos/update/${item.id}/">
+                <div class="update-icon">
+                    <i class="fa-solid fa-pencil"></i>
+                </div>
+            </a>
+            <div class="delete-icon">
+                <i class="fa-solid fa-x" onclick="deleteItem(event)"  data-item-id="${ item.id }"></i>
+            </div>
+        </div>
+        `
+    });
+
+}
+
+( () => {
+    fetch('http://localhost:4613/app/investimentos/data')
+    .then( response => response.json())
+    .then( data => {
+        let { codigoList, allInvestimentos} = data;
+
+        displayData(allInvestimentos, codigoList);
+    })
+})()
