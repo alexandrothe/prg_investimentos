@@ -19,7 +19,9 @@ async function addAtivos( req, res){
     
     res.redirect('/app/ativos')
 
+    
 }
+
 
 async function deleteAtivo(req, res){
     const id = req.params.id;

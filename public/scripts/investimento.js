@@ -77,8 +77,6 @@ formPost.addEventListener('submit', (event) => {
     try{
         event.preventDefault();
     
-        console.log(postData.value)
-
         const  regexCodePattern = /^[A-Z]{4}\d{1,2}$/;
         if (!regexCodePattern.test(postCodigo.value)) {
             // If the input does not match the pattern, show the error message
@@ -102,11 +100,11 @@ formPost.addEventListener('submit', (event) => {
 async function deleteItem(event){
     const idToDelete = event.target.getAttribute('data-item-id');
 
-    await fetch('http://localhost:4613/app/investimentos/delete/'+idToDelete, {
+    await fetch('http://localhost:3000/app/investimentos/delete/'+idToDelete, {
         method:'DELETE'
     });
 
-    window.location.href = "http://localhost:4613/app/investimentos"
+    window.location.reload();
 
 }
 
@@ -158,16 +156,13 @@ applyFilterBtn.addEventListener('click',  () => {
 
     //  {} length = 2  so ist null
 
-    fetch('http://localhost:4613/app/investimentos/data?filter=true&'+urlQuery)
+    fetch('data?filter=true&'+urlQuery)
     .then( response => response.json())
     .then( data => {
         let {codigoList, allInvestimentos} = data;
         
-        displayData(allInvestimentos,2)
+        displayData(allInvestimentos, codigoList)
     })
-    // if(!urlQuery.length){ window.location.href = '/app/investimentos?filter=false' }
-    // else{ window.location.href = '/app/investimentos?filter=true&'+urlQuery }
-    
 
 
 });
@@ -177,9 +172,28 @@ function displayData(allInvestimentos, codigoList){
 
     let itemField = document.querySelector('.item-field');
     let buttonField = document.querySelector('.button-field');
+    let selectTag = document.getElementById('post-codigo');
+    let filterSelectTag = document.getElementById('filter-codigo-ativo');
 
-    allInvestimentos.forEach( item => {
-        itemField.innerHTML += `
+    let newButtonHtml = '';
+    let newItemFieldHtml = '';
+    let newOptionHtml = '';
+
+    
+    
+    let [precoMedioLista, lucroPrejuizoList] = calcPrecoMedio(allInvestimentos);
+    
+    codigoList.forEach( codigo => {
+        newOptionHtml += `
+        <option value="${codigo}"> ${codigo} </option>
+        `
+    })
+    
+
+    let vendaCount = 0;
+    allInvestimentos.forEach( (item, index) => {
+
+        newItemFieldHtml += `
         <div class="item">
             <p>${item.data}</p>
             <p>${item.codigoAtivo}</p>
@@ -191,16 +205,31 @@ function displayData(allInvestimentos, codigoList){
             <p>${((item.quantidade * item.valorUnidade) * 0.0003 ).toFixed(2) }</p>
             <p>
             ${
-                item.compraVenda === 'c'
+
+                item.compraVenda === 'C'
                 ? (item.quantidade * item.valorUnidade + (item.quantidade * item.valorUnidade) * 0.0003 + item.taxaCorretagem).toFixed(2)
-                : (item.quantidade * item.valorUnidade - (item.quantidade * item.valorUnidade) * 0.0003 + item.taxaCorretagem).toFixed(2)
+                : (item.quantidade * item.valorUnidade - (item.quantidade * item.valorUnidade) * 0.0003 + item.taxaCorretagem).toFixed(2)  
             }
             </p>
-        </div> `
+            <p>${precoMedioLista[index]}</p>
+            <p
+            class="${
+                item.compraVenda === 'V'
+                ? lucroPrejuizoList[vendaCount] > 0 ? 'lucro':'prejuizo':'' }"
+            >
+            ${
+                item.compraVenda === 'V'
+                ? lucroPrejuizoList[vendaCount]
+                : '/'
+            }
+            </p>
+        </div>
+        `
+        if(item.compraVenda === "V") vendaCount += 1;
 
-        buttonField.innerHTML += `
+        newButtonHtml += `
         <div class="button-item">
-            <a href="http://localhost:4613/app/investimentos/update/${item.id}/">
+            <a href="/app/investimentos/update/${item.id}/">
                 <div class="update-icon">
                     <i class="fa-solid fa-pencil"></i>
                 </div>
@@ -212,14 +241,89 @@ function displayData(allInvestimentos, codigoList){
         `
     });
 
+    selectTag.innerHTML = newOptionHtml;
+    filterSelectTag.innerHTML += newOptionHtml;
+    itemField.innerHTML = newItemFieldHtml;
+    buttonField.innerHTML = newButtonHtml;
+
+    let lucros = document.querySelectorAll('p.lucro');
+    let prejuizos = document.querySelectorAll('p.prejuizo');
+
+    lucros.forEach( item => {
+        item.parentElement.classList.toggle('lucro')
+    })
+    prejuizos.forEach( item => {
+        item.parentElement.classList.toggle('prejuizo')
+    })
 }
 
 ( () => {
-    fetch('http://localhost:4613/app/investimentos/data')
-    .then( response => response.json())
-    .then( data => {
-        let { codigoList, allInvestimentos} = data;
+    fetch('data')
+    .then( response => {
+        if(!response.ok){
+            console.error('response no ok');
+            return;
+        }
 
-        displayData(allInvestimentos, codigoList);
+        return response.json()
+
     })
+    .then( data => {
+
+        if(data.isNull){
+            window.location.href = '/app/ativos?noativos=true';
+        }
+        else{
+            let { codigoList, allInvestimentos} = data;
+            
+            displayData(allInvestimentos, codigoList);
+        }
+
+    })
+    .catch( err => console.log(err));
 })()
+
+
+
+
+function calcPrecoMedio(data){
+
+    let listPrecoMedio = [];
+    let lucroPrejuizoList = [];
+    let pm = 0;
+    let count = 0;
+
+    for(let i = 0; i < data.length; i++){
+        
+        let op = data[i];
+
+        let valorTotal = Number((op.quantidade * op.valorUnidade + (op.quantidade * op.valorUnidade) * 0.0003 + op.taxaCorretagem).toFixed(2));
+
+        if(op.compraVenda === 'C'){
+
+
+            pm = ((pm * count) + valorTotal) / ( count + op.quantidade );
+            count += op.quantidade;
+
+
+            listPrecoMedio.push(Number(pm.toFixed(2)));
+        }
+
+        else{
+            listPrecoMedio.push( listPrecoMedio[listPrecoMedio.length - 1]);
+
+
+            let lucroPrejuizo = (valorTotal - ( op.quantidade * listPrecoMedio[ listPrecoMedio.length - 1] ) ).toFixed(2);
+            
+            lucroPrejuizoList.push(lucroPrejuizo);
+
+            count -= op.quantidade;
+
+        }
+
+    }
+
+    return [listPrecoMedio, lucroPrejuizoList];
+}
+
+

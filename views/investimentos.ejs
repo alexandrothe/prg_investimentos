@@ -20,9 +20,7 @@
                     <div>
                         <label for="post-codigo">Código:</label>
                         <select id="post-codigo" name="codigo">
-                            <% codigoList.forEach( (codigo) => { %>
-                                <option value="<%= codigo %>"><%= codigo %></option>
-                            <% }) %>
+                           <!-- option dynamically created -->
                         </select>
                     </div>
         
@@ -66,16 +64,18 @@
                     <p>Taxa Corretagem</p>
                     <p>Taxa de Imposto</p>
                     <p>Valor Final</p>
+                    <p>Preco Medio</p>
+                    <p>Lucro/Prejuízo</p>
                     <div class="filter-icon">
                         <i class="mdi mdi-filter-variant"></i>
                     </div>
                 </div>
                 <div class="table-body">
-                    <div class="item-field" data-allInvestimentos="<%= allInvestimentos %>">
-                       
+                    <div class="item-field">
+                        <!-- items dynamically created -->
                     </div>
                     <div class="button-field">
-                        
+                        <!-- buttons  dynamically created -->
                     </div>
                 </div>
             </div>
@@ -93,9 +93,7 @@
                         <label for="filter-codigo-ativo">Codigo Ativo</label>
                         <select name="codigoAtivo" id="filter-codigo-ativo">
                             <option selected value="">selecione</option>
-                            <% codigoList.forEach( (codigo) => { %>
-                                <option value="<%= codigo %>"><%= codigo %></option>
-                            <% }) %>
+                            
                         </select>
                     </div>
                     <div class="filter-form-item">

@@ -102,7 +102,7 @@ form button:hover {
 }
 .table-header{
     display: grid;
-    grid-template-columns: repeat(10, 120px);
+    grid-template-columns: repeat(12, 120px);
     text-align: center;
     background-color: white;
     box-shadow: 0 0 3px 3px silver;
@@ -128,7 +128,7 @@ form button:hover {
 }
 .item{
     display: grid;
-    grid-template-columns: repeat(9, 120px);
+    grid-template-columns: repeat(11, 120px);
     background-color: white;
     text-align: center;
     gap:20px;
@@ -138,6 +138,15 @@ form button:hover {
     padding:10px;
     height: 60px;
 }
+.item.lucro{
+    background-image: linear-gradient(to bottom, rgb(50, 200, 75), rgb(71, 165, 71));
+    color: white;
+}
+.item.prejuizo{
+    background: linear-gradient( to bottom, red, rgb(191, 50, 50));
+    color: white;
+}
+
 .button-item{
     display: flex;
     justify-content: center;

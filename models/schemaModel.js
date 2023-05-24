@@ -1,9 +1,20 @@
 const {Sequelize, DataTypes} = require('sequelize')
 const path = require('path')
 
+
+
 const sequelize = new Sequelize({
     dialect:'sqlite',
-    storage: path.join(__dirname, 'database.db')
+    storage: path.join(__dirname, 'database.db'),
+    dialectOptions:{
+        dateStrings: true,
+        typeCast: function (field, next) {
+            if (field.type === 'DATE') {
+                return field.string();
+            }
+            return next();
+        },
+    },
 });
 
 sequelize.authenticate()
@@ -30,10 +41,11 @@ const Ativos = sequelize.define("Ativo",{
     }
 },{ freezeTableName:true, timestamps:false});
 
+
 const Investimentos = sequelize.define('Investimentos', {
-    data:{
+    data: {
         type: DataTypes.DATEONLY,
-        allowNull:false
+        allowNull:false,
     },
     codigoAtivo:{
         type: DataTypes.STRING(6),

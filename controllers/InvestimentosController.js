@@ -3,32 +3,7 @@ const { Investimentos, Ativos } = require('../models/schemaModel');
 
 async function getPageInvestimento(req, res){
 
-    let allAtivos = await Ativos.findAll()
-    let allInvestimentos = await Investimentos.findAll();
-
-    let codigoList = allAtivos. map( item => item.codigo);
-
-    if(allAtivos.length === 0) {res.redirect('/app/ativos?noativos=true')}
-    
-    if( req.query.filter){
-        
-        console.log(req.query);
-        let options = {
-            order:[],
-            where:{}
-        }
-
-
-        if(req.query.data){ options.order.push(['data', req.query.data]) }
-        if(req.query.compraVenda){ options.where.compraVenda = req.query.compraVenda }
-        if(req.query.codigoAtivo){ options.where.codigoAtivo = req.query.codigoAtivo} 
-        // if(req.query.valorFinal){ options.valorFinal = req.query.valorFinal }
-
-        
-        allInvestimentos = await Investimentos.findAll( options );
-
-    }
-    res.render('investimentos.ejs', { allInvestimentos, codigoList});
+    res.render('investimentos.ejs');
 }
 
 async function getInvestimento(req, res){
@@ -37,11 +12,14 @@ async function getInvestimento(req, res){
 
     let codigoList = allAtivos. map( item => item.codigo);
 
-    if(allAtivos.length === 0) {res.redirect('/app/ativos?noativos=true')}
+    console.log(allAtivos.length)
+    if(allAtivos.length === 0) {
+        return res.json({ isNull: true })
+    }
     
     if( req.query.filter){
         
-        console.log(req.query);
+
         let options = {
             order:[],
             where:{}
@@ -65,7 +43,7 @@ async function getInvestimento(req, res){
         }
 
     )
-    // res.render('investimentos.ejs',{ codigoList, allInvestimentos });
+
 }
 async function addInvestimentos(req, res){
 
@@ -89,7 +67,7 @@ async function addInvestimentos(req, res){
             AtivoId: AtivoId
         });
         
-        res.redirect('/app/investimentos');
+        res.redirect('/app/investimentos/page');
 }
 async function pageUpdateInvestimentos(req, res){
     let id = req.params.id;
@@ -106,25 +84,32 @@ async function updateInvestimentos(req, res){
     let id = req.params.id;
     const { data, codigo, quantidade, valorUnitario, compraVenda, taxaCorretagem } = req.body;
 
+    try{
 
-     // getting the id of the ativo, searching by the codigo
-     let AtivoId;
-    //  let ativos = await myModel.findAllAtivos({where:{codigo:codigo}});
-    let ativos = await Ativos.findAll({ where: { codigo:codigo }});
-
-    ativos.forEach( item => AtivoId = item.id );
- 
-    await Investimentos.update({
-        data: data,
-        codigoAtivo:codigo,
-        quantidade:quantidade,
-        valorUnidade:valorUnitario,
-        compraVenda:compraVenda,
-        taxaCorretagem:taxaCorretagem,
-        AtivoId: AtivoId
-    },{where:{id:id}});
+        console.log('shoul update')
+        // getting the id of the ativo, searching by the codigo
+        let AtivoId;
+        //  let ativos = await myModel.findAllAtivos({where:{codigo:codigo}});
+        let ativos = await Ativos.findAll({ where: { codigo:codigo }});
     
-    res.send('updated')
+        ativos.forEach( item => AtivoId = item.id );
+     
+        await Investimentos.update({
+            data: data,
+            codigoAtivo:codigo,
+            quantidade:quantidade,
+            valorUnidade:valorUnitario,
+            compraVenda:compraVenda,
+            taxaCorretagem:taxaCorretagem,
+            AtivoId: AtivoId
+        },{where:{id:id}});
+        
+        res.json( { ok:true , msg: 'Atualizado com sucesso' } )
+
+    }
+    catch( err ) {
+        res.json( {ok: false, msg: 'erro ao tentar atualizar Investimentos '})
+    }
 
 
 }
@@ -138,4 +123,11 @@ async function deleteInvestimentos(req, res){
     res.send('deleted');
 }
 
-module.exports = { getInvestimento, getPageInvestimento, addInvestimentos, pageUpdateInvestimentos,updateInvestimentos, deleteInvestimentos}
+module.exports = {
+    getInvestimento,
+    getPageInvestimento,
+    addInvestimentos,
+    pageUpdateInvestimentos,
+    updateInvestimentos,
+    deleteInvestimentos
+}

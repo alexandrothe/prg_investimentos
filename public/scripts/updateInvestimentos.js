@@ -35,7 +35,7 @@ function validateDate(dateInput) {
     return true;
 }
 
-putFormBtn.addEventListener('click', async () => {
+putFormBtn.addEventListener('click', () => {
     try{
         let idToUpdate = window.location.href.split('/')[6];
 
@@ -51,7 +51,7 @@ putFormBtn.addEventListener('click', async () => {
         if(quantidade.value == "" || taxaCorretagem.value == "" || valorUnitario.value == "" ){
             throw "Formularo não pode estar vazio!!!"
         }
-
+    
         const dataToPut = {
             data: data.value,
             codigo: codigo.value,
@@ -61,13 +61,25 @@ putFormBtn.addEventListener('click', async () => {
             taxaCorretagem: taxaCorretagem.value,
         }
 
-        await fetch('http://localhost:4613/app/investimentos/update/'+ idToUpdate, {
+        fetch('http://localhost:3000/app/investimentos/update/'+ idToUpdate, {
             method:"PUT",
             headers:{"Content-Type":"application/json"},
             body: JSON.stringify(dataToPut)
-        });
+        })
+        .then( (response) => {
+            console.log(response)
+            return response.json()
+        })
+        .then( (data) => {
+            if( data.ok){
+                window.location.href = "http://localhost:3000/app/investimentos/page"
+            }
+            else{
+                throw Error(data.msg);
+            }
+        })
+        .catch( err => console.error(err));
 
-        window.location.href = "http://localhost:4613/app/investimentos"
         
         erroField.textContent = "";
     }
