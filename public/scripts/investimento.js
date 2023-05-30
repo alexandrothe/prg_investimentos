@@ -1,7 +1,7 @@
-const filteIcon = document.querySelector('.filter-icon');
-const updatePopuop = document.querySelector('.filter-field');
-const resetFilterBtn = document.querySelector('#reset-filter-btn');
-const applyFilterBtn = document.getElementById('apply-filter-btn');
+// const filteIcon = document.querySelector('.filter-icon');
+// const updatePopuop = document.querySelector('.filter-field');
+// const resetFilterBtn = document.querySelector('#reset-filter-btn');
+// const applyFilterBtn = document.getElementById('apply-filter-btn');
 const formPost = document.getElementById('myForm');
 
 
@@ -19,31 +19,31 @@ const filterCodigoAtivo = document.querySelector('#filter-codigo-ativo');
 const filterCompraVenda = document.querySelector('#filter-compra-venda');
 const filterValorFinal = document.querySelector('#filter-valor-final');
 
-resetFilterBtn.addEventListener('click', (event) => {
-    filterData.selectedIndex = 0
-    filterCodigoAtivo.selectedIndex = 0
-    filterCompraVenda.selectedIndex = 0
-    filterValorFinal.selectedIndex = 0
-})
+// resetFilterBtn.addEventListener('click', (event) => {
+//     filterData.selectedIndex = 0
+//     filterCodigoAtivo.selectedIndex = 0
+//     filterCompraVenda.selectedIndex = 0
+//     filterValorFinal.selectedIndex = 0
+// })
 
 
 /// when the user click the filter icon it will check if is open
 /// if its alread open its gonna close and vice-versa
-filteIcon.addEventListener('click', () => {
-    if(updatePopuop.style.display == "none"){
-        updatePopuop.style.display = "block"
-    }
-    else{
-        console.log('is none')
-        updatePopuop.style.display = "none"
-    }
-});
+// filteIcon.addEventListener('click', () => {
+//     if(updatePopuop.style.display == "none"){
+//         updatePopuop.style.display = "block"
+//     }
+//     else{
+//         console.log('is none')
+//         updatePopuop.style.display = "none"
+//     }
+// });
 
-document.addEventListener('click', (event) => {
-    if(!updatePopuop.contains(event.target) && !filteIcon.contains(event.target)){
-        updatePopuop.style.display = 'none'
-    }
-});
+// document.addEventListener('click', (event) => {
+//     if(!updatePopuop.contains(event.target) && !filteIcon.contains(event.target)){
+//         updatePopuop.style.display = 'none'
+//     }
+// });
 
 
 
@@ -145,27 +145,27 @@ postData.addEventListener('input', (e) => {
 
 
 
-applyFilterBtn.addEventListener('click',  () => {
+// applyFilterBtn.addEventListener('click',  () => {
 
-    let urlQuery = '';
+//     let urlQuery = '';
 
-    if(filterData.value){ urlQuery += `data=${filterData.value}&` }
-    if(filterCodigoAtivo.value){  urlQuery += `codigoAtivo=${filterCodigoAtivo.value}&` }
-    if(filterCompraVenda.value){ urlQuery += `compraVenda=${filterCompraVenda.value}&` }
-    if(filterValorFinal.value){ urlQuery += `valorFinal=${filterValorFinal.value}&`}
+//     if(filterData.value){ urlQuery += `data=${filterData.value}&` }
+//     if(filterCodigoAtivo.value){  urlQuery += `codigoAtivo=${filterCodigoAtivo.value}&` }
+//     if(filterCompraVenda.value){ urlQuery += `compraVenda=${filterCompraVenda.value}&` }
+//     if(filterValorFinal.value){ urlQuery += `valorFinal=${filterValorFinal.value}&`}
 
-    //  {} length = 2  so ist null
+//     //  {} length = 2  so ist null
 
-    fetch('data?filter=true&'+urlQuery)
-    .then( response => response.json())
-    .then( data => {
-        let {codigoList, allInvestimentos} = data;
+//     fetch('data?filter=true&'+urlQuery)
+//     .then( response => response.json())
+//     .then( data => {
+//         let {codigoList, allInvestimentos} = data;
         
-        displayData(allInvestimentos, codigoList)
-    })
+//         displayData(allInvestimentos, codigoList)
+//     })
 
 
-});
+// });
 
 
 function displayData(allInvestimentos, codigoList){
