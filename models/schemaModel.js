@@ -2,28 +2,14 @@ const {Sequelize, DataTypes} = require('sequelize')
 const path = require('path')
 
 
-
 const sequelize = new Sequelize({
     dialect:'sqlite',
-    storage: path.join(__dirname, 'database.db'),
-    dialectOptions:{
-        dateStrings: true,
-        typeCast: function (field, next) {
-            if (field.type === 'DATE') {
-                return field.string();
-            }
-            return next();
-        },
-    },
+    storage: path.join(__dirname, 'database.db')
 });
 
 sequelize.authenticate()
-.then( () => {
-    console.log('connected!!!');
-})
-.catch( (err) => {
-    console.log('could not connect to database, erro:',err);
-})
+.then( () => console.log('connected!!!'))
+.catch( (err) => console.log('could not connect to database, erro:',err))
 
 
 const Ativos = sequelize.define("Ativo",{
@@ -39,7 +25,8 @@ const Ativos = sequelize.define("Ativo",{
         type: DataTypes.STRING(35),
         allowNull:false
     }
-},{ freezeTableName:true, timestamps:false});
+},{ freezeTableName:true});
+
 
 
 const Investimentos = sequelize.define('Investimentos', {
@@ -66,17 +53,23 @@ const Investimentos = sequelize.define('Investimentos', {
     taxaCorretagem:{
         type: DataTypes.FLOAT,
         allowNull:false
-    }
-},{freezeTableName:true, timestamps:false})
+    },
+    precoMedio:{
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
+    lucroPrejuizo:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: '/'
+    },
+},{freezeTableName:true});
 
 
 Ativos.hasMany(Investimentos, {foreignKey:"AtivoId", onDelete:"CASCADE"});
 Investimentos.belongsTo(Ativos);
 
 
-
-sequelize.sync().then( () => {
-    console.log("All models were synchronized successfully.");
-});
+sequelize.sync().then( () => console.log("All models were synchronized successfully."));
 
 module.exports = {Ativos, Investimentos}

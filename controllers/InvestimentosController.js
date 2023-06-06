@@ -1,6 +1,48 @@
 const { Investimentos, Ativos } = require('../models/schemaModel');
 
 
+
+function calcPrecoMedio(data){
+
+    let listPrecoMedio = [];
+    let lucroPrejuizoList = [];
+    let pm = 0;
+    let count = 0;
+
+    for(let i = 0; i < data.length; i++){
+        
+        let op = data[i];
+
+        let valorTotal = Number((op.quantidade * op.valorUnidade + (op.quantidade * op.valorUnidade) * 0.0003 + op.taxaCorretagem).toFixed(2));
+        
+        if(op.compraVenda === 'C'){
+
+
+            pm = ((pm * count) + valorTotal) / ( count + op.quantidade );
+            count += op.quantidade;
+
+
+            listPrecoMedio.push(Number(pm.toFixed(2)));
+        }
+
+        else{
+            listPrecoMedio.push( listPrecoMedio[listPrecoMedio.length - 1]);
+
+
+            let lucroPrejuizo = (valorTotal - ( op.quantidade * listPrecoMedio[ listPrecoMedio.length - 1] ) ).toFixed(2);
+            
+            lucroPrejuizoList.push(lucroPrejuizo);
+
+            count -= op.quantidade;
+
+        }
+
+    }
+
+    return [listPrecoMedio, lucroPrejuizoList];
+}
+
+
 async function getPageInvestimento(req, res){
 
     res.render('investimentos.ejs');
@@ -8,11 +50,10 @@ async function getPageInvestimento(req, res){
 
 async function getInvestimento(req, res){
     let allAtivos = await Ativos.findAll()
-    let allInvestimentos = await Investimentos.findAll();
+    let allInvestimentos = await Investimentos.findAll({ order: [['createdAt', 'ASC']]});
 
     let codigoList = allAtivos. map( item => item.codigo);
 
-    console.log(allAtivos.length)
     if(allAtivos.length === 0) {
         return res.json({ isNull: true })
     }
@@ -35,39 +76,39 @@ async function getInvestimento(req, res){
         allInvestimentos = await Investimentos.findAll( options );
 
     }
+    let [ precoMedioLista, lucroPrejuizoList] = calcPrecoMedio(allInvestimentos);
 
-    res.json(
-        {
-            allInvestimentos,
-            codigoList
-        }
-
-    )
-
+    res.json({ allInvestimentos, codigoList, lucroPrejuizoList, precoMedioLista});
 }
+
 async function addInvestimentos(req, res){
+    let allInvestimentos = await Investimentos.findAll({ order: [['createdAt', 'ASC']]});
+    let count = await Investimentos.sum('quantidade');
 
-    const { data, codigo, quantidade, valorUnitario, compraVenda,
-        taxaCorretagem} = req.body;
+    const { data, codigo, quantidade,
+        valorUnitario, compraVenda, taxaCorretagem
+    } = req.body;
+
+
+    // getting the id of the ativo, searching by the codigo
+    let AtivoId;
+
+    let ativos = await Ativos.findAll({where: { codigo:codigo}})
+    ativos.forEach( item => AtivoId = item.id );
+
+    await Investimentos.create({
+        data: data,
+        codigoAtivo:codigo,
+        quantidade:quantidade,
+        valorUnidade:valorUnitario,
+        compraVenda:compraVenda,
+        taxaCorretagem:taxaCorretagem,
+        precoMedio: '',
+        lucroPrejuizo: '',
+        AtivoId: AtivoId
+    });
     
-        
-        // getting the id of the ativo, searching by the codigo
-        let AtivoId;
-
-        let ativos = await Ativos.findAll({where:{ codigo:codigo}})
-        ativos.forEach( item => AtivoId = item.id );
-
-        await Investimentos.create({
-            data: data,
-            codigoAtivo:codigo,
-            quantidade:quantidade,
-            valorUnidade:valorUnitario,
-            compraVenda:compraVenda,
-            taxaCorretagem:taxaCorretagem,
-            AtivoId: AtivoId
-        });
-        
-        res.redirect('/app/investimentos/page');
+    res.redirect('/app/investimentos/page');
 }
 async function pageUpdateInvestimentos(req, res){
     let id = req.params.id;
